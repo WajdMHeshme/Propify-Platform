@@ -1,4 +1,5 @@
 import { FaUserShield, FaLock, FaComments, FaBolt } from "react-icons/fa";
+import type { FAQItem } from "../types/ui";
 
 export const sectionsTitles = {
   properties: {
@@ -39,5 +40,31 @@ export const features = [
     title: "Fast Booking Process",
     desc: "Book accommodations quickly and easily from anywhere around the world with a smooth process.",
     icon: FaBolt,
+  },
+];
+export const FAQS: FAQItem[] = [
+  {
+    id: 1,
+    question: "What is Project?",
+    answer:
+      "Project is a sample product used to show how the FAQ accordion looks. You can replace this text with the real answer coming from your API.",
+  },
+  {
+    id: 2,
+    question: "How can I integrate the API?",
+    answer:
+      "Call your API endpoint (for example /faq) and map the received data into the same shape used here (question + answer).",
+  },
+  {
+    id: 3,
+    question: "Can I customize the styles?",
+    answer:
+      "Yes — the component is built with Tailwind. Tweak colors, spacing, and the SVG brush under the title to fit your design.",
+  },
+  {
+    id: 4,
+    question: "Is this accessible?",
+    answer:
+      "Buttons are keyboard-focusable and announce expansion state with aria-expanded. You can improve further by managing focus on open/close.",
   },
 ];

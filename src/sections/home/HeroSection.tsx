@@ -1,15 +1,17 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 import HeroFilterSection from "../../components/layout/HeroFilterSection";
 import FloatingIcons from "../../components/ui/FloatingIcons";
 
-const HeroSection: React.FC = () => {
-  const { t, i18n } = useTranslation("hero"); 
+const HeroSection = () => {
+  const { t } = useTranslation("hero");
 
-  const handleFilter = (filters: { city: string; price: string; type: string }) => {
+  const handleFilter = (filters: {
+    city: string;
+    price: string;
+    type: string;
+  }) => {
     console.log("Filters selected:", filters);
   };
-
 
   return (
     <section className="relative h-[90vh] overflow-hidden flex flex-col items-center">
@@ -32,7 +34,10 @@ const HeroSection: React.FC = () => {
             fill="rgba(255,255,255,0.10)"
           />
         </g>
-        <g className="animate-wave--slow wave-offset" style={{ transform: "translateY(6px)" }}>
+        <g
+          className="animate-wave--slow wave-offset"
+          style={{ transform: "translateY(6px)" }}
+        >
           <path
             d="M0,260 C240,320 420,200 660,240 C900,280 1100,220 1440,260 L1440,0 L0,0 Z"
             fill="rgba(255,255,255,0.06)"
