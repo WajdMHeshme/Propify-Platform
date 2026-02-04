@@ -68,3 +68,35 @@ export const FAQS: FAQItem[] = [
       "Buttons are keyboard-focusable and announce expansion state with aria-expanded. You can improve further by managing focus on open/close.",
   },
 ];
+
+export const chooseUsFeatures = [
+  {
+    id: 1,
+    icon: "home",
+    title: "Verified Properties",
+    description:
+      "All properties are carefully reviewed to ensure quality, safety, and accurate information.",
+  },
+  {
+    id: 2,
+    icon: "shield",
+    title: "Secure Payments",
+    description:
+      "Your payments are protected with advanced security and trusted payment gateways.",
+  },
+  {
+    id: 3,
+    icon: "clock",
+    title: "Fast & Easy Booking",
+    description:
+      "Book your property in just a few clicks with instant confirmation.",
+  },
+  {
+    id: 4,
+    icon: "support",
+    title: "24/7 Support",
+    description:
+      "Our support team is always available to help you anytime, anywhere.",
+  },
+] as const;
+

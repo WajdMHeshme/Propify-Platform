@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaBell, FaBars, FaTimes, FaGlobe } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const navLinks = [
   { name: "Home", href: "#" },
@@ -10,6 +11,7 @@ const navLinks = [
 
 export default function Navbar() {
   const [open, setOpen] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const { i18n } = useTranslation();
 
   const toggleLanguage = () => {
@@ -18,10 +20,22 @@ export default function Navbar() {
     document.documentElement.dir = newLang === "ar" ? "rtl" : "ltr";
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="w-full">
+    <header className={`w-full  pt-20 `}>
       {/* Main Navbar */}
-      <div className="w-full bg-white shadow-sm">
+      <div
+        className={`w-full fixed top-0 left-0 z-88888888888 bg-white shadow-sm transition-all duration-300
+        `}
+      >
         <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
           
           {/* Logo */}
@@ -78,10 +92,10 @@ export default function Navbar() {
             </button>
 
             {/* Sign In / Sign Up */}
-            <button className="text-sm font-medium text-gray-700 hover:text-primary transition">
+            <Link to="/login" className="text-sm font-medium text-gray-700 hover:text-primary transition">
               Sign In
-            </button>
-            <button className="btn-primary text-sm">Sign Up</button>
+            </Link>
+            <Link to="/register" className="btn-primary text-sm">Sign Up</Link>
 
             {/* Notifications */}
             <button className="relative p-2 rounded-full text-gray-500 hover:text-primary hover:bg-gray-100 transition">

@@ -72,7 +72,7 @@ const HeroSection = () => {
       </div>
 
       {/* Filter Section */}
-      <div className="w-full absolute bottom-8 z-20">
+      <div className="w-full  bottom-8 z-[214214214421px]">
         <HeroFilterSection onFilterChange={handleFilter} />
       </div>
     </section>

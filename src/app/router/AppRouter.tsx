@@ -1,18 +1,24 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "../../components/layout/MainLayout";
 import PropertyDetailsPage from "../../pages/propertyDetails/PropertyDetailsPage";
 import HomePage from "../../pages/home/HomePage";
 import ContactPage from "../../pages/contact/ContactPage";
-
-
+import LoginPage from "../../pages/auth/LoginPage";
+import RegisterPage from "../../pages/auth/RegisterPage";
 
 const router = createBrowserRouter([
   {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/register",
+    element: <RegisterPage />,
+    
+  },
+  {
     path: "/",
-    element: <MainLayout />, 
+    element: <MainLayout />,
     children: [
       {
         index: true,
@@ -23,7 +29,7 @@ const router = createBrowserRouter([
         element: <PropertyDetailsPage />,
       },
       {
-        path: "booking",
+        path: "contact-us",
         element: <ContactPage />,
       },
     ],

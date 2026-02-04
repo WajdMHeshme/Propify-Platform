@@ -18,7 +18,7 @@ const HeroFilterSection = ({ onFilterChange }: FilterProps) => {
   };
 
   return (
-    <div className="bg-white bg-opacity-90 backdrop-blur-md p-8 rounded-2xl shadow-lg flex flex-col md:flex-row gap-4 max-w-5xl mx-auto mt-8">
+    <div className="bg-white  bg-opacity-90 backdrop-blur-md p-8 rounded-2xl shadow-lg flex flex-col md:flex-row gap-4 max-w-5xl mx-auto mt-8">
       
       {/* City Filter */}
       <div className="flex items-center gap-2 flex-1">

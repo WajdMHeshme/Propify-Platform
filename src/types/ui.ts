@@ -39,3 +39,13 @@ export type FAQItem = {
 export interface FaqAccordionProps {
   items: FAQItem[];
 }
+
+// Choose Us Card
+
+export type IconKey = "home" | "shield" | "clock" | "support";
+
+export interface ChooseUsCardProps {
+  icon: IconKey;
+  title: string;
+  description: string;
+}

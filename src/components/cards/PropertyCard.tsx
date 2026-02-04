@@ -4,7 +4,7 @@ import { FaBed, FaRulerCombined, FaDollarSign } from "react-icons/fa";
 
 const PropertyCard = ({ property }: PropertyCardProps) => {
   return (
-    <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+    <div className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-100">
       
       {/* Image */}
       <div className="relative h-56 overflow-hidden rounded-t-2xl">
