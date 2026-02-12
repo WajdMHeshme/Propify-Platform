@@ -1,11 +1,13 @@
 import type { PropertyCardProps } from "../../types/properties";
 import { FaBed, FaRulerCombined, FaDollarSign } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 
 const PropertyCard = ({ property }: PropertyCardProps) => {
   return (
-    <div className="group bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-100">
-      
+    <Link
+      to={`/properties/${property.id}`}
+      className="group block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-100"
+    >
       {/* Image */}
       <div className="relative h-56 overflow-hidden rounded-t-2xl">
         <img
@@ -39,11 +41,11 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
           </div>
         </div>
 
-        <button className="w-full mt-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-lg py-2 transition-colors duration-300">
+        <div className="mt-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-lg py-2 text-center transition-colors duration-300">
           View Details →
-        </button>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

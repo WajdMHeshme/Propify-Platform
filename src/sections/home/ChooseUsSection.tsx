@@ -12,6 +12,8 @@ export default function ChooseUsSection() {
           desc="Discover the benefits of choosing Propify for your real estate needs. We are committed to providing exceptional service and unparalleled expertise."
           keyword="Propify"
           underline
+          underlineSize="lg"
+          underlineClassName="text-primary"
         />
 
         {/* Cards Grid */}

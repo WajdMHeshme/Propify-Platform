@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { FaEnvelope, FaPhoneAlt, FaTimes } from "react-icons/fa";
+
+import { FaEnvelope, FaPhoneAlt } from "react-icons/fa";
 
 const Topbar: React.FC = () => {
-  const [visible, setVisible] = useState<boolean>(true);
 
-  if (!visible) return null;
+
+
 
   return (
     <div className="w-full relative overflow-hidden">
@@ -33,10 +33,10 @@ const Topbar: React.FC = () => {
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 h-12 flex items-center justify-between text-white text-xs lg:text-sm">
         {/* Left group */}
-        <div className="flex items-center gap-4 md:gap-8">
+        <div className="flex items-center gap-4 md:gap-8 m-auto sm:m-0">
           <a
             href="tel:+1234567890"
-            className="hidden sm:flex items-center gap-2 px-2 py-1 rounded-md hover:bg-white/10 transition transform-gpu duration-150"
+            className=" flex items-center gap-2 px-2 py-1 rounded-md hover:bg-white/10 transition transform-gpu duration-150"
             aria-label="Call"
           >
             <FaPhoneAlt className="w-3.5 h-3.5" />
@@ -45,7 +45,7 @@ const Topbar: React.FC = () => {
 
           <a
             href="mailto:support@propify.com"
-            className="hidden sm:flex items-center gap-2 px-2 py-1 rounded-md hover:bg-white/10 transition transform-gpu duration-150"
+            className=" flex items-center gap-2 px-2 py-1 rounded-md hover:bg-white/10 transition transform-gpu duration-150"
             aria-label="Email"
           >
             <FaEnvelope className="w-3.5 h-3.5" />
@@ -78,14 +78,7 @@ const Topbar: React.FC = () => {
             Explore Deals
           </a>
 
-          {/* Close button */}
-          <button
-            onClick={() => setVisible(false)}
-            aria-label="Close topbar"
-            className="p-1.5 rounded-full hover:bg-white/10 transition"
-          >
-            <FaTimes className="w-3.5 h-3.5" />
-          </button>
+
         </div>
       </div>
     </div>

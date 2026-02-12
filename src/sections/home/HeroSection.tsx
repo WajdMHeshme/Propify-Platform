@@ -14,7 +14,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative h-[90vh] overflow-hidden flex flex-col items-center">
+    <section className="relative h-225 md:h-[90vh] overflow-hidden flex flex-col items-center">
       {/* Gradient Background */}
       <div className="absolute inset-0 bg-linear-to-r from-primary to-primary-dark" />
 
@@ -72,7 +72,7 @@ const HeroSection = () => {
       </div>
 
       {/* Filter Section */}
-      <div className="w-full  bottom-8 z-[214214214421px]">
+      <div className="w-full  bottom-8 z-20 px-4 md:px-8">
         <HeroFilterSection onFilterChange={handleFilter} />
       </div>
     </section>

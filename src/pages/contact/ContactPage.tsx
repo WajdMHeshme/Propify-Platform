@@ -1,9 +1,14 @@
+import ContactForm from "../../sections/contact/ContactForm"
+import ContactHero from "../../sections/contact/ContactHero"
+import SupportHours from "../../sections/contact/SupportHours"
 
 const ContactPage = () => {
   return (
-    <div>
-      
-    </div>
+    <>
+      <ContactHero />
+      <SupportHours />
+      <ContactForm />
+    </>
   )
 }
 

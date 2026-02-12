@@ -2,7 +2,7 @@ import { FaFacebookF, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="bg-primary text-white">
+    <footer className="bg-linear-to-r from-primary to-primary-dark text-white">
       <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col items-center gap-6">
         <h1 className="text-4xl text-center font-bold bg-transparent">
           Propify

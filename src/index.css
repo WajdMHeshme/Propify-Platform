@@ -112,6 +112,13 @@ h6 {
 }
 
 
+::selection {
+  background: #7a73ff;
+  color: white;
+}
+
+
+
 
 /* =========================
    Links

@@ -1,17 +1,12 @@
 import { useState, useEffect } from "react";
-import { FaBell, FaBars, FaTimes, FaGlobe } from "react-icons/fa";
+import { FaBars, FaTimes, FaGlobe } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-
-const navLinks = [
-  { name: "Home", href: "#" },
-  { name: "Properties", href: "#" },
-  { name: "Contact Us", href: "#" },
-];
+import { PiBookmarksSimpleBold, PiHeartStraightBold } from "react-icons/pi";
 
 export default function Navbar() {
-  const [open, setOpen] = useState<boolean>(false);
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { i18n } = useTranslation();
 
   const toggleLanguage = () => {
@@ -22,7 +17,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 0);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -30,84 +25,79 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className={`w-full  pt-20 `}>
-      {/* Main Navbar */}
-      <div
-        className={`w-full fixed top-0 left-0 z-88888888888 bg-white shadow-sm transition-all duration-300
-        `}
+    <>
+      {/* Topbar */}
+      {!isScrolled && (
+        <div className="w-full h-12 bg-primary text-white flex items-center justify-between px-4">
+          Topbar
+        </div>
+      )}
+
+      {/* Navbar */}
+      <header
+        className={`w-full fixed left-0 z-50 bg-white shadow-sm transition-all duration-300 ${
+          isScrolled ? "top-0" : "top-12"
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-          
           {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="w-36">
-              <img
-                src="/logo.png"
-                alt="Propify"
-                className="w-full h-full object-contain"
-              />
-            </div>
-          </div>
+          <Link to="" className="w-36">
+            <img
+              src="/logo.png"
+              alt="Propify"
+              className="w-full h-full object-contain"
+            />
+          </Link>
 
           {/* Desktop Links */}
           <nav className="hidden lg:flex items-center gap-10 text-sm font-semibold">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="
-                  relative text-gray-600
-                  transition-all duration-300
-                  hover:text-primary
-                  after:absolute after:left-0 after:-bottom-1
-                  after:h-0.5 after:w-0
-                  after:bg-primary after:rounded-full
-                  after:transition-all after:duration-300
-                  hover:after:w-full
-                "
-              >
-                {link.name}
-              </a>
-            ))}
+            <Link to="" className="hover:text-primary">
+              Home
+            </Link>
+            <Link to="properties" className="hover:text-primary">
+              Properties
+            </Link>
+            <Link to="contact-us" className="hover:text-primary">
+              Contact Us
+            </Link>
           </nav>
 
           {/* Right Actions */}
           <div className="hidden lg:flex items-center gap-4">
-            {/* Language Toggle */}
+            {/* Heart Icon */}
+            <button className="p-2 rounded-full hover:bg-gray-100">
+              <PiHeartStraightBold  size={20} color="#5659f9"/>
+            </button>
+
+            {/* Bell Icon */}
+            <button className="p-2 rounded-full hover:bg-gray-100">
+              <PiBookmarksSimpleBold  size={20} color="#5659f9"/>
+            </button>
+
+            {/* Language */}
             <button
               onClick={toggleLanguage}
-              className="
-                flex items-center gap-2
-                px-3 py-2
-                rounded-full
-                text-sm font-medium
-                text-gray-600
-                hover:text-primary
-                hover:bg-gray-100
-                transition
-              "
+              className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-gray-100"
             >
-              <FaGlobe size={16} />
+              <FaGlobe size={16} color="#5659f9"/>
               <span className="uppercase">{i18n.language}</span>
             </button>
 
-            {/* Sign In / Sign Up */}
-            <Link to="/login" className="text-sm font-medium text-gray-700 hover:text-primary transition">
+            <Link
+              to="/login"
+              className="text-sm font-medium hover:text-primary"
+            >
               Sign In
             </Link>
-            <Link to="/register" className="btn-primary text-sm">Sign Up</Link>
-
-            {/* Notifications */}
-            <button className="relative p-2 rounded-full text-gray-500 hover:text-primary hover:bg-gray-100 transition">
-              <FaBell size={18} />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full" />
-            </button>
+            <Link to="/register" className="btn-primary text-sm">
+              Sign Up
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setOpen(!open)}
-            className="lg:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 transition"
+            className="lg:hidden p-2 rounded-md"
           >
             {open ? <FaTimes size={22} /> : <FaBars size={22} />}
           </button>
@@ -117,50 +107,19 @@ export default function Navbar() {
         {open && (
           <div className="lg:hidden bg-white border-t shadow-sm">
             <nav className="flex flex-col gap-2 px-6 py-6 text-sm font-medium">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="
-                    px-3 py-2 rounded-md
-                    text-gray-600
-                    transition-all duration-200
-                    hover:bg-gray-100 hover:text-primary
-                    active:scale-[0.98]
-                  "
-                >
-                  {link.name}
-                </a>
-              ))}
-
-              {/* Language Toggle Mobile */}
-              <button
-                onClick={toggleLanguage}
-                className="
-                  mt-2 px-3 py-2
-                  rounded-md
-                  flex items-center gap-2
-                  text-gray-600
-                  hover:bg-gray-100
-                  hover:text-primary
-                  transition
-                "
-              >
-                <FaGlobe size={16} />
-                <span>{i18n.language === "en" ? "العربية" : "English"}</span>
-              </button>
-
-              {/* Mobile Sign In / Sign Up */}
-              <div className="pt-4 mt-4 border-t flex flex-col gap-2">
-                <button className="text-gray-700 font-medium hover:text-primary text-left">
-                  Sign In
-                </button>
-                <button className="btn-primary w-full text-left">Sign Up</button>
-              </div>
+              <a href="#" className="px-3 py-2 hover:bg-gray-100">
+                Home
+              </a>
+              <a href="#" className="px-3 py-2 hover:bg-gray-100">
+                Properties
+              </a>
+              <a href="#" className="px-3 py-2 hover:bg-gray-100">
+                Contact Us
+              </a>
             </nav>
           </div>
         )}
-      </div>
-    </header>
+      </header>
+    </>
   );
 }
