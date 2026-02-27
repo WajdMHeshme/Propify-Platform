@@ -1,14 +1,19 @@
+// components/sections/HeroFilterSection.tsx
 import { useState } from "react";
 import { FaCity, FaDollarSign, FaHome } from "react-icons/fa";
 import type { FilterProps } from "../../types/ui";
-
-
 
 const cities = ["New York", "Los Angeles", "Chicago", "Miami"];
 const prices = ["< $1000", "$1000 - $3000", "$3000 - $5000", "> $5000"];
 const types = ["Apartment", "House", "Villa", "Studio"];
 
-const HeroFilterSection = ({ onFilterChange }: FilterProps) => {
+type Props = FilterProps & {
+  hidden?: boolean; // إذا true -> لن يعرض الكومبوننت
+};
+
+const HeroFilterSection = ({ onFilterChange, hidden = false }: Props) => {
+  if (hidden) return null;
+
   const [filters, setFilters] = useState({ city: "", price: "", type: "" });
 
   const handleChange = (key: "city" | "price" | "type", value: string) => {
@@ -18,9 +23,8 @@ const HeroFilterSection = ({ onFilterChange }: FilterProps) => {
   };
 
   return (
-    <div className="bg-white  bg-opacity-90 backdrop-blur-md p-8 rounded-2xl shadow-lg flex flex-col md:flex-row gap-4 max-w-5xl mx-auto mt-8">
-      
-      {/* City Filter */}
+    <div className="bg-white bg-opacity-90 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-lg flex flex-col md:flex-row gap-4 max-w-5xl mx-auto">
+      {/* City */}
       <div className="flex items-center gap-2 flex-1">
         <FaCity className="text-primary text-lg" />
         <select
@@ -37,7 +41,7 @@ const HeroFilterSection = ({ onFilterChange }: FilterProps) => {
         </select>
       </div>
 
-      {/* Price Filter */}
+      {/* Price */}
       <div className="flex items-center gap-2 flex-1">
         <FaDollarSign className="text-primary text-lg" />
         <select
@@ -54,7 +58,7 @@ const HeroFilterSection = ({ onFilterChange }: FilterProps) => {
         </select>
       </div>
 
-      {/* Type Filter */}
+      {/* Type */}
       <div className="flex items-center gap-2 flex-1">
         <FaHome className="text-primary text-lg" />
         <select
@@ -71,7 +75,6 @@ const HeroFilterSection = ({ onFilterChange }: FilterProps) => {
         </select>
       </div>
 
-      {/* Filter Button */}
       <button
         className="mt-4 md:mt-0 bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-6 rounded-lg transition transform hover:-translate-y-0.5"
         onClick={() => onFilterChange?.(filters)}

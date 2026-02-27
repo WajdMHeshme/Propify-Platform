@@ -1,20 +1,12 @@
 import { useTranslation } from "react-i18next";
-import HeroFilterSection from "../../components/layout/HeroFilterSection";
 import FloatingIcons from "../../components/ui/FloatingIcons";
 
 const HeroSection = () => {
   const { t } = useTranslation("hero");
 
-  const handleFilter = (filters: {
-    city: string;
-    price: string;
-    type: string;
-  }) => {
-    console.log("Filters selected:", filters);
-  };
-
   return (
-    <section className="relative h-225 md:h-[90vh] overflow-hidden flex flex-col items-center">
+    <section className="relative h-140 md:h-[85vh] overflow-visible flex flex-col items-center">
+      
       {/* Gradient Background */}
       <div className="absolute inset-0 bg-linear-to-r from-primary to-primary-dark" />
 
@@ -71,10 +63,20 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Filter Section */}
-      <div className="w-full  bottom-8 z-20 px-4 md:px-8">
-        <HeroFilterSection onFilterChange={handleFilter} />
+      {/* ✅ القوس بأسفل الهيرو */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+        <svg
+          viewBox="0 0 1440 150"
+          className="w-full h-16 md:h-24"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,0 C480,150 960,150 1440,0 L1440,150 L0,150 Z"
+            fill="white"
+          />
+        </svg>
       </div>
+
     </section>
   );
 };

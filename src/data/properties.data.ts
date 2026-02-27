@@ -1,6 +1,8 @@
+import type { Property, PaginatedResponse } from "../types/properties";
+
 const PROPERTY_IMAGE = "/assets/images/property.webp";
 
-export const propertiesData = {
+export const propertiesData: PaginatedResponse<Property> = {
   data: [
     {
       id: 1,
@@ -9,8 +11,8 @@ export const propertiesData = {
       city: "Amsterdam",
       address: "Damrak 21, Amsterdam",
       rooms: 2,
-      area: "85.00",
-      price: "1800.00",
+      area: 85,
+      price: 1800,
       status: "available",
       is_furnished: true,
       main_image: PROPERTY_IMAGE,
@@ -22,8 +24,8 @@ export const propertiesData = {
       city: "Barcelona",
       address: "Carrer de la Pau 18",
       rooms: 5,
-      area: "320.00",
-      price: "750000.00",
+      area: 320,
+      price: 750000,
       status: "available",
       is_furnished: true,
       main_image: PROPERTY_IMAGE,
@@ -35,8 +37,8 @@ export const propertiesData = {
       city: "Berlin",
       address: "Oranienstraße 55",
       rooms: 1,
-      area: "45.00",
-      price: "950.00",
+      area: 45,
+      price: 950,
       status: "booked",
       is_furnished: false,
       main_image: PROPERTY_IMAGE,
@@ -48,8 +50,8 @@ export const propertiesData = {
       city: "Paris",
       address: "Rue Lepic 74",
       rooms: 4,
-      area: "210.00",
-      price: "420000.00",
+      area: 210,
+      price: 420000,
       status: "rented",
       is_furnished: true,
       main_image: PROPERTY_IMAGE,
@@ -61,8 +63,8 @@ export const propertiesData = {
       city: "Nice",
       address: "Sea View Road 9",
       rooms: 3,
-      area: "120.00",
-      price: "2300.00",
+      area: 120,
+      price: 2300,
       status: "available",
       is_furnished: true,
       main_image: PROPERTY_IMAGE,
@@ -74,11 +76,11 @@ export const propertiesData = {
       city: "Rotterdam",
       address: "Main Street 101",
       rooms: 2,
-      area: "95.00",
-      price: "1400.00",
+      area: 95,
+      price: 1400,
       status: "available",
       is_furnished: false,
       main_image: PROPERTY_IMAGE,
-    }
+    },
   ],
 };

@@ -1,321 +1,254 @@
-import { useState, useEffect, useRef } from "react";
+// src/pages/propertyDetails/PropertyDetailsPage.tsx
+import { useEffect, type JSX } from "react";
 import {
   FaBed,
   FaRulerCombined,
   FaMapMarkerAlt,
+  FaCouch,
+  FaTree,
+  FaArrowUp,
+  FaCar,
 } from "react-icons/fa";
 import {
   FiPhone,
-  FiHeart,
   FiShare2,
   FiX,
   FiChevronLeft,
   FiChevronRight,
   FiCalendar,
 } from "react-icons/fi";
-
-import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css";
 import { RiHeartAdd2Line } from "react-icons/ri";
+import { useParams } from "react-router-dom";
+import { usePropertyDetails } from "../../hooks/usePropertyDetails";
+import "flatpickr/dist/flatpickr.min.css";
+import PropertyDetailsSkeleton from "../../components/ui/loaders/PropertyDetailsSkeleton";
 
+const amenityIcons: Record<string, JSX.Element> = {
+  Furnished: <FaCouch className="text-indigo-500" />,
+  Garden: <FaTree className="text-green-500" />,
+  Elevator: <FaArrowUp className="text-gray-600" />,
+  Parking: <FaCar className="text-yellow-500" />,
+};
 
-/* Injected CSS */
-const injectedCSS = `
-:root{
-  --color-primary:#5659f9;
-  --color-primary-dark:#4f46e5;
-  --color-bg:#ffffff;
-  --color-bg-muted:#f8fafc;
-  --color-border:#e2e8f0;
-  --color-text:#0f172a;
-  --radius-lg:0.75rem;
-}
+export default function PropertyDetailsPage() {
+  const { id } = useParams<{ id: string }>();
 
-.property-root { background: var(--color-bg); color: var(--color-text); }
-.card {
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-}
-.chip {
-  background: linear-gradient(180deg,#ffffff,#f8fafc);
-  border: 1px solid var(--color-border);
-  transition: all .25s ease;
-}
-.chip:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,0,0,.06);
-}
-.btn-grad {
-  background: linear-gradient(90deg,var(--color-primary),var(--color-primary-dark));
-  color:white;
-}
-`;
+  const {
+    prop,
+    gallery,
+    activeIdx,
+    setActiveIdx,
+    lightboxOpen,
+    setLightboxOpen,
+    dateInputRef,
+    formatPrice,
+    isLoading,
+    isError,
+  } = usePropertyDetails(id!);
 
-function useInjectCSS(css) {
-  useEffect(() => {
-    const id = "property-details-css";
-    if (document.getElementById(id)) return;
-    const style = document.createElement("style");
-    style.id = id;
-    style.innerHTML = css;
-    document.head.appendChild(style);
-  }, [css]);
-}
+  useEffect(() => setActiveIdx(0), [prop?.main_image, setActiveIdx]);
 
-export default function PropertyDetailsPage({ property = null, images = [] }) {
-  useInjectCSS(injectedCSS);
+  if (isLoading)
+    if (isLoading) return <PropertyDetailsSkeleton />;
 
-  const demo = {
-    id: 16,
-    title: "Modern Family Home with Pool",
-    city: "Dubai",
-    neighborhood: "Jumeirah",
-    address: "Street 12, Building A",
-    rooms: 3,
-    area: "465",
-    price: "120000",
-    status: "available",
-    is_furnished: true,
-    description:
-      "Beautiful modern home with spacious rooms, large balcony and private pool.",
-    created_at: "2026-02-05",
-  };
-
-  const demoImages = [
-    "/assets/images/property.webp",
-    "/assets/images/imageSlideCard2.webp",
-    "/assets/images/wallpaperflare.com_wallpaper(13).jpg",
-  ];
-
-  const otherProperties = [
-    {
-      id: 1,
-      title: "Luxury Apartment",
-      city: "Dubai",
-      price: "98000",
-      image: "/assets/images/property.webp",
-    },
-    {
-      id: 2,
-      title: "Cozy Studio",
-      city: "Dubai",
-      price: "65000",
-      image: "/assets/images/imageSlideCard2.webp",
-    },
-    {
-      id: 3,
-      title: "Sea View Villa",
-      city: "Dubai",
-      price: "210000",
-      image: "/assets/images/wallpaperflare.com_wallpaper(13).jpg",
-    },
-  ];
-
-  const prop = property || demo;
-  const gallery = images.length ? images : demoImages;
-
-  const [activeIdx, setActiveIdx] = useState(0);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const dateInputRef = useRef(null);
-const [, setScheduledAt] = useState("");
-useEffect(() => {
-  if (!dateInputRef.current) return;
-
-  const picker = flatpickr(dateInputRef.current, {
-    enableTime: true,
-    dateFormat: "Y-m-d H:i",
-    time_24hr: true,
-    minDate: "today",
-    onChange: (selectedDates) => {
-      if (selectedDates.length) {
-        setScheduledAt(selectedDates[0].toISOString());
-      }
-    },
-  });
-
-  return () => picker.destroy();
-}, []);
-
-
-
-
-  const formatPrice = (v) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "AED",
-      maximumFractionDigits: 0,
-    }).format(Number(v));
+  if (isError || !prop)
+    return (
+      <div className="p-10 text-center text-red-500 font-semibold text-lg">
+        Property Not Found
+      </div>
+    );
 
   return (
-    <div className="property-root p-6 md:p-12">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8">
-
-        {/* Left */}
-        <aside className="hidden lg:block">
-          <div className="sticky top-6 space-y-4">
-            <h3 className="text-sm font-semibold text-gray-700">
-              Other Properties
-            </h3>
-
-            {otherProperties.map((item) => (
-              <div key={item.id} className="card overflow-hidden">
-                <img src={item.image} className="h-32 w-full object-cover" />
-                <div className="p-3">
-                  <h4 className="text-sm font-medium">{item.title}</h4>
-                  <div className="text-xs text-gray-500">{item.city}</div>
-                  <div className="mt-2 font-semibold text-indigo-600 text-sm">
-                    {formatPrice(item.price)}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </aside>
-
-        {/* Main */}
-        <div className="lg:col-span-2">
-          <div className="card overflow-hidden">
+    <div className="p-6 md:p-12 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* LEFT: Property Details */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Main Image */}
+          <div className="relative rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
             <img
               src={gallery[activeIdx]}
-              className="w-full h-[420px] object-cover cursor-zoom-in"
+              alt={prop.title}
+              className="w-full h-96 object-cover cursor-zoom-in rounded-xl"
               onClick={() => setLightboxOpen(true)}
             />
+          </div>
 
-            {/* Thumbnails */}
-            <div className="flex gap-3 p-4 bg-gray-50 overflow-x-auto">
+          {/* Thumbnails */}
+          {gallery.length > 1 && (
+            <div className="flex gap-3 overflow-x-auto mt-3 py-2">
               {gallery.map((img, idx) => (
-                <img
+                <button
                   key={idx}
-                  src={img}
                   onClick={() => setActiveIdx(idx)}
-                  className={`h-20 w-28 object-cover rounded-lg cursor-pointer border-2
-                    ${activeIdx === idx
+                  className={`h-20 w-28 rounded-lg overflow-hidden border-2 focus:outline-none transition-transform transform hover:scale-105 ${
+                    activeIdx === idx
                       ? "border-indigo-500"
-                      : "border-transparent opacity-70 hover:opacity-100"}`}
-                />
+                      : "border-transparent opacity-70 hover:opacity-100"
+                  }`}
+                  aria-label={`Show image ${idx + 1}`}
+                >
+                  <img
+                    src={img}
+                    alt={`${prop.title} - ${idx + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
               ))}
             </div>
+          )}
 
-            <div className="p-6">
-              <span
-                className={`inline-block mb-2 px-3 py-1 text-xs rounded-full
-                ${prop.status === "booked"
+          {/* Details */}
+          <div className="space-y-5 mt-4">
+            <span
+              className={`px-3 py-1 text-xs rounded-full font-medium ${
+                prop.status === "booked"
                   ? "bg-red-100 text-red-600"
-                  : "bg-green-100 text-green-600"}`}
-              >
-                {prop.status}
-              </span>
+                  : "bg-green-100 text-green-600"
+              }`}
+            >
+              {prop.status.toUpperCase()}
+            </span>
 
-              <h1 className="text-3xl font-semibold">{prop.title}</h1>
+            <h1 className="text-4xl font-bold text-gray-800">{prop.title}</h1>
 
-              <div className="mt-2 text-sm text-gray-500 flex gap-2">
-                <FaMapMarkerAlt /> {prop.city} — {prop.neighborhood}
+            <div className="flex items-center gap-2 text-gray-500 mt-1">
+              <FaMapMarkerAlt /> <span className="text-sm">{prop.city}</span>
+            </div>
+
+            <div className="text-3xl font-extrabold text-indigo-600 mt-2">
+              {formatPrice(prop.price)}
+            </div>
+
+            <p className="mt-4 text-gray-700 text-base leading-relaxed">{prop.description}</p>
+
+            {/* Property Info Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+              <div className="p-4 bg-gray-50 rounded-xl flex items-center gap-3 shadow-sm hover:shadow-md transition">
+                <FaBed className="text-indigo-500 w-6 h-6" />
+                <span className="text-gray-700 font-medium">{prop.rooms} Rooms</span>
               </div>
-
-              <div className="mt-4 text-3xl font-bold text-indigo-600">
-                {formatPrice(prop.price)}
+              <div className="p-4 bg-gray-50 rounded-xl flex items-center gap-3 shadow-sm hover:shadow-md transition">
+                <FaRulerCombined className="text-indigo-500 w-6 h-6" />
+                <span className="text-gray-700 font-medium">{prop.area} m²</span>
               </div>
+              <div className="p-4 bg-gray-50 rounded-xl flex items-center gap-3 shadow-sm hover:shadow-md transition">
+                <FaMapMarkerAlt className="text-indigo-500 w-6 h-6" />
+                <span className="text-gray-700 font-medium">{prop.address}</span>
+              </div>
+            </div>
 
-              <p className="mt-6 text-gray-700 leading-relaxed">
-                {prop.description}
-              </p>
-
-              <div className="mt-6 grid grid-cols-3 gap-3">
-                <div className="chip p-4 flex justify-center items-center gap-3">
-                  <FaBed className="text-indigo-500 text-xl" />
-                  <div>
-                    <div className="text-xs text-gray-500">Rooms</div>
-                    <div className="font-medium">{prop.rooms}</div>
+            {/* Amenities */}
+            <div className="mt-6">
+              <h2 className="text-2xl font-semibold mb-4 text-gray-800">Amenities</h2>
+              {/* Grid for large screens */}
+              <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {prop.amenities?.map((amenity, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center gap-3 p-4 rounded-xl bg-linear-to-tr from-white to-white/95 border border-gray-100 shadow-sm hover:shadow-lg hover:scale-105 transition-transform cursor-pointer"
+                    title={amenity}
+                  >
+                    <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-indigo-100 text-indigo-600 text-xl shrink-0">
+                      {amenityIcons[amenity] || <FaMapMarkerAlt />}
+                    </div>
+                    <span className="text-gray-800 font-medium">{amenity}</span>
                   </div>
-                </div>
-
-                <div className="chip p-4 flex justify-center items-center gap-3">
-                  <FaRulerCombined className="text-indigo-500 text-xl" />
-                  <div>
-                    <div className="text-xs text-gray-500">Area</div>
-                    <div className="font-medium">{prop.area} m²</div>
+                ))}
+              </div>
+              {/* Horizontal scroll for small screens */}
+              <div className="sm:hidden flex gap-3 overflow-x-auto py-2 -ml-1">
+                {prop.amenities?.map((amenity, idx) => (
+                  <div
+                    key={idx}
+                    className="shrink-0 min-w-30 flex items-center gap-2 p-3 rounded-2xl bg-indigo-50 text-indigo-600 shadow-sm hover:shadow-md hover:scale-105 transition-transform cursor-pointer"
+                    title={amenity}
+                  >
+                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-indigo-100 text-indigo-600 text-lg">
+                      {amenityIcons[amenity] || <FaMapMarkerAlt />}
+                    </div>
+                    <span className="text-sm font-medium truncate">{amenity}</span>
                   </div>
-                </div>
-
-                <div className="chip p-4 flex justify-center items-center  gap-3">
-                  <FaMapMarkerAlt className="text-indigo-500 text-xl" />
-                  <div>
-                    <div className="text-xs text-gray-500">Address</div>
-                    <div className="font-medium">{prop.address}</div>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Right */}
-<aside>
-  <div className="card p-6 sticky top-6 shadow-lg rounded-2xl bg-white">
-    <button className="w-full btn-grad py-3 rounded-lg flex justify-center items-center gap-2 transition-transform transform hover:scale-105">
-      <FiPhone /> Request a Visit
-    </button>
-
-    <div className="mt-4 grid grid-cols-2 sm:grid-cols-2 gap-2">
-      <button className="chip rounded-2xl py-2 flex justify-center items-center gap-2 border border-gray-300 hover:bg-red-50 transition-colors">
-        <RiHeartAdd2Line  /> Save
+        {/* RIGHT: Booking Form */}
+{/* RIGHT: Booking Form */}
+<div className="relative ">
+  <div className="sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto space-y-4 border-2 border-gray-200 rounded-2xl p-6">
+    <div className="bg-white rounded-2xl  p-6 space-y-4">
+      <button className="w-full bg-indigo-600 text-white py-3 rounded-lg flex justify-center items-center gap-2 hover:scale-105 transition-transform">
+        <FiPhone /> Request a Visit
       </button>
-      <button className="chip rounded-2xl py-2 flex justify-center items-center gap-2 border border-gray-300 hover:bg-blue-50 transition-colors">
-        <FiShare2 /> Share
-      </button>
-    </div>
 
-    <hr className="my-6 border-primary" />
-
-    <h3 className="font-semibold mb-4 text-primary text-lg">Request Booking</h3>
-
-    <form className="space-y-4">
-      <input type="hidden" name="property_id" value={prop.id} />
-
-      <div>
-        <label className="text-sm text-gray-700 mb-1 block">Select date & time</label>
-        <div className="relative">
-          <input
-            ref={dateInputRef}
-            type="text"
-            placeholder="Choose date & time"
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
-            readOnly
-          />
-          <FiCalendar className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
-        </div>
+      <div className="grid grid-cols-2 gap-2">
+        <button className="py-2 flex justify-center items-center gap-2 border border-gray-300 rounded-2xl hover:bg-red-50 transition-colors">
+          <RiHeartAdd2Line /> Save
+        </button>
+        <button className="py-2 flex justify-center items-center gap-2 border border-gray-300 rounded-2xl hover:bg-blue-50 transition-colors">
+          <FiShare2 /> Share
+        </button>
       </div>
 
-      <button
-        type="button"
-        className="w-full btn-grad py-3 rounded-lg font-medium transition-transform transform hover:scale-105"
-      >
+      <hr className="border-gray-200 my-4" />
+
+      <h3 className="font-semibold text-lg text-gray-800">Request Booking</h3>
+      <div className="relative">
+        <input
+          ref={dateInputRef}
+          type="text"
+          placeholder="Choose date & time"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-200 focus:outline-none"
+          readOnly
+        />
+        <FiCalendar className="absolute right-3 top-3 text-gray-400" />
+      </div>
+
+      <button className="w-full bg-indigo-600 text-white py-3 rounded-lg mt-3 hover:scale-105 transition-transform">
         Send Booking Request
       </button>
-    </form>
+    </div>
   </div>
-</aside>
-
+</div>
       </div>
 
       {/* Lightbox */}
       {lightboxOpen && (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center">
-          <div className="relative max-w-5xl w-full">
-            <img src={gallery[activeIdx]} className="w-full h-[70vh] object-contain" />
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+          <div className="relative w-full max-w-4xl">
+            <img
+              src={gallery[activeIdx]}
+              className="w-full h-[70vh] object-contain rounded-lg"
+              alt={`${prop.title} fullscreen`}
+            />
 
-            <button onClick={() => setLightboxOpen(false)} className="absolute top-4 right-4 bg-white p-2 rounded-full">
+            <button
+              onClick={() => setLightboxOpen(false)}
+              className="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition"
+              aria-label="Close"
+            >
               <FiX />
             </button>
 
-            <button onClick={() => setActiveIdx((i) => (i - 1 + gallery.length) % gallery.length)}
-              className="absolute left-4 top-1/2 bg-white p-2 rounded-full">
+            <button
+              onClick={() =>
+                setActiveIdx((i) => (i - 1 + gallery.length) % gallery.length)
+              }
+              className="absolute left-4 top-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition"
+              aria-label="Previous"
+            >
               <FiChevronLeft />
             </button>
 
-            <button onClick={() => setActiveIdx((i) => (i + 1) % gallery.length)}
-              className="absolute right-4 top-1/2 bg-white p-2 rounded-full">
+            <button
+              onClick={() =>
+                setActiveIdx((i) => (i + 1) % gallery.length)
+              }
+              className="absolute right-4 top-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition"
+              aria-label="Next"
+            >
               <FiChevronRight />
             </button>
           </div>
