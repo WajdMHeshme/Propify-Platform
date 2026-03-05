@@ -4,13 +4,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "./index.css";
 import "./i18n";
-import AppRouter from "./app/router/AppRouter";
+import App from "./App";
 
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AppRouter />
+      <App />
     </QueryClientProvider>
   </StrictMode>,
 );

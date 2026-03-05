@@ -12,10 +12,10 @@ export interface Property {
   is_furnished: boolean
   description: string
   main_image: string
+  images: string[]  
   amenities: string[]
   created_at: string
 }
-
 export interface PropertiesResponse {
   data: Property[]
 }

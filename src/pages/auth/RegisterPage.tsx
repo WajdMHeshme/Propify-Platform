@@ -1,18 +1,38 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useRegister } from "../../hooks/useAuth";
+import { useQueryClient } from "@tanstack/react-query";
 import AuthForm from "../../components/auth/AuthForm";
+import type { RegisterRequest } from "../../types/auth";
 
-const LoginPage: React.FC = () => {
+const RegisterPage: React.FC = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { mutate, isPending, error } = useRegister();
+
+  const handleRegister = (data: RegisterRequest) => {
+    mutate(data, {
+      onSuccess: (res) => {
+        // ✅ 1. خزّن التوكن
+        localStorage.setItem("token", res.token);
+
+        // ✅ 2. حدث currentUser فورًا
+        queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+
+        // ✅ 3. روح للصفحة الرئيسية
+        navigate("/");
+      },
+    });
+  };
+
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
-      
       {/* Left Side */}
-      <div className="relative bg-gradient-to-br from-primary via-indigo-600 to-violet-700 text-white p-12 flex flex-col justify-between overflow-hidden">
-        {/* Soft background shapes */}
+      <div className="relative bg-linear-to-br from-primary via-indigo-600 to-violet-700 text-white p-12 flex flex-col justify-between overflow-hidden">
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
         <div className="absolute top-1/3 -right-32 w-80 h-80 bg-black/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-1/4 w-72 h-72 bg-white/5 rounded-full blur-2xl" />
 
-        {/* Content */}
         <div className="relative z-10">
           <img
             src="/assets/icons/image.png"
@@ -24,7 +44,6 @@ const LoginPage: React.FC = () => {
             Propify
           </h1>
 
-          {/* Features */}
           <div className="mt-10 grid gap-4 max-w-md mx-auto text-sm">
             <div className="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-3 backdrop-blur">
               <span className="h-2 w-2 rounded-full bg-white" />
@@ -52,15 +71,21 @@ const LoginPage: React.FC = () => {
       <div className="flex items-center justify-center p-8 md:p-12 bg-gray-50">
         <div className="w-full max-w-md">
           <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
-            {/* Header */}
             <div className="mb-8 text-center">
+              <h2 className="text-3xl font-extrabold text-gray-900">
+                Create Account
+              </h2>
               <p className="mt-2 text-sm text-gray-500">
                 Sign up to your Propify account
               </p>
             </div>
 
-            {/* Auth Form */}
-            <AuthForm type="register" />
+            <AuthForm
+              type="register"
+              onSubmit={handleRegister}
+              isLoading={isPending}
+              error={error instanceof Error ? error.message : String(error)}
+            />
           </div>
 
           <p className="mt-6 text-center text-xs text-gray-400">
@@ -72,4 +97,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

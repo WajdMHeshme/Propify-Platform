@@ -1,4 +1,5 @@
 import SharedHero from "../../sections/contact/SharedHero"
+import PropertiesSection from "../../sections/properties/PropertiesSection"
 
 
 const PropertiesPage = () => {
@@ -11,6 +12,7 @@ const PropertiesPage = () => {
   showFilter={true}
   onFilterChange={(filters) => console.log("filters:", filters)}
 />
+<PropertiesSection />
     </>
   )
 }

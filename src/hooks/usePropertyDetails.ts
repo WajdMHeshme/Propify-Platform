@@ -14,9 +14,14 @@ export const usePropertyDetails = (id?: string) => {
     enabled: !!id,
   });
 
-  const prop: Property | undefined = data; // getPropertyById يعيد property مباشرة
+  const prop: Property | undefined = data; 
 
-  const gallery = prop ? [`${BASE_URL}/storage/${prop.main_image}`] : [];
+const gallery = prop
+  ? [
+      `${BASE_URL}/storage/${prop.main_image}`,
+      ...(prop.images ?? []).map((img) => `${BASE_URL}/storage/${img}`),
+    ]
+  : [];
 
   const [activeIdx, setActiveIdx] = useState<number>(0);
   const [lightboxOpen, setLightboxOpen] = useState<boolean>(false);
