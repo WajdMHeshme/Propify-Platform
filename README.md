@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/assets/images/logo.png" alt="Propefy Logo" width="140" />
+  <img src="public/assets/images/logo.png" alt="Propify Logo" />
 </div>
 
 <h1 align="center" style="color:#5659f9; margin-top: 0;">Propify</h1>
