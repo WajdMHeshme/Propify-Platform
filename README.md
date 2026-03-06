@@ -1,6 +1,8 @@
-# <div align="center"><img src="/assets/images/logo.png" alt="Propefy Logo" width="140" /></div>
+<div align="center">
+  <img src="assets/images/logo.png" alt="Propefy Logo" width="140" />
+</div>
 
-<h1 align="center" style="color:#5659f9; margin-top: 0;">Propefy</h1>
+<h1 align="center" style="color:#5659f9; margin-top: 0;">Propify</h1>
 <p align="center" style="color:#4f46e5; margin-top: 0;">A modern property booking + management platform — React + TypeScript + Vite</p>
 
 ---
