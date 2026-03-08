@@ -4,7 +4,8 @@ import { FiPhone, FiShare2, FiCalendar } from "react-icons/fi";
 import { RiHeartAdd2Line } from "react-icons/ri";
 import Flatpickr from "flatpickr";
 import { bookProperty } from "../../services/property.service";
-import BookingModal from "../modal/BookingModal";
+import Modal from "../modal/Modal"; // استدعاء المودال الجديد
+import { useFavorites } from "../../hooks/useFavorites";
 
 interface BookingFormProps {
   propertyId: number | string;
@@ -12,11 +13,19 @@ interface BookingFormProps {
 
 export default function BookingForm({ propertyId }: BookingFormProps) {
   const [loading, setLoading] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalType, setModalType] = useState<"success" | "error">("success");
-  const [modalMessage, setModalMessage] = useState("");
+  const [modalData, setModalData] = useState({
+    isOpen: false,
+    type: "success" as "success" | "error",
+    title: "",
+    desc: "",
+  });
+
+  const [savingFav, setSavingFav] = useState(false);
 
   const dateInputRef = useRef<HTMLInputElement>(null);
+
+  // Favorites hook - use addFavorite directly
+  const { favorites, addFavorite } = useFavorites();
 
   // Initialize Flatpickr
   useEffect(() => {
@@ -30,29 +39,61 @@ export default function BookingForm({ propertyId }: BookingFormProps) {
 
   const handleBooking = async () => {
     if (!dateInputRef.current?.value) {
-      showModal("Please select a date & time first", "error");
+      showModal("error", "Missing Date & Time", "Please select a date & time first.");
       return;
     }
 
     setLoading(true);
     try {
       await bookProperty({
-        property_id: propertyId,
+        property_id: Number(propertyId),
         date_time: dateInputRef.current.value,
       });
-      showModal("Your booking request has been sent!", "success");
+      showModal("success", "Booking Sent", "Your booking request has been sent successfully!");
       dateInputRef.current.value = "";
     } catch (err: any) {
-      showModal(err.message || "Booking failed", "error");
+      showModal(
+        "error",
+        "Booking Failed",
+        err?.message || "There was an issue sending your booking. Please try again."
+      );
     } finally {
       setLoading(false);
     }
+    console.log("Booking propertyId:", propertyId, typeof propertyId);
   };
 
-  const showModal = (message: string, type: "success" | "error") => {
-    setModalMessage(message);
-    setModalType(type);
-    setModalOpen(true);
+  const showModal = (type: "success" | "error", title: string, desc: string) => {
+    setModalData({ isOpen: true, type, title, desc });
+  };
+
+  // handle Save (always add favorite)
+  const handleSave = async () => {
+    if (savingFav) return;
+    setSavingFav(true);
+
+    try {
+      // if already favorited (by property id) show message and do nothing
+      const already = favorites.find((f) => String(f.property?.id) === String(propertyId));
+      if (already) {
+        showModal("success", "Already Saved", "This property is already in your favorites.");
+        return;
+      }
+
+      // call addFavorite (your hook does optimistic update + returns created)
+      const created = await addFavorite(propertyId);
+      showModal("success", "Added to Favorites", "This property was added to your favorites.");
+      return created;
+    } catch (err: any) {
+      showModal(
+        "error",
+        "Favorite Failed",
+        err?.message || "Failed to add to favorites. Please try again."
+      );
+      throw err;
+    } finally {
+      setSavingFav(false);
+    }
   };
 
   return (
@@ -63,9 +104,16 @@ export default function BookingForm({ propertyId }: BookingFormProps) {
         </button>
 
         <div className="grid grid-cols-2 gap-2">
-          <button className="py-2 flex justify-center items-center gap-2 border border-gray-300 rounded-2xl hover:bg-red-50 transition-colors">
-            <RiHeartAdd2Line /> Save
+          <button
+            onClick={handleSave}
+            disabled={savingFav}
+            className="py-2 flex justify-center items-center gap-2 border border-gray-300 rounded-2xl hover:bg-red-50 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            title="Save"
+          >
+            <RiHeartAdd2Line />
+            {savingFav ? "Saving..." : "Save"}
           </button>
+
           <button className="py-2 flex justify-center items-center gap-2 border border-gray-300 rounded-2xl hover:bg-blue-50 transition-colors">
             <FiShare2 /> Share
           </button>
@@ -94,11 +142,12 @@ export default function BookingForm({ propertyId }: BookingFormProps) {
         </button>
       </div>
 
-      <BookingModal
-        isOpen={modalOpen}
-        type={modalType}
-        message={modalMessage}
-        onClose={() => setModalOpen(false)}
+      <Modal
+        isOpen={modalData.isOpen}
+        type={modalData.type}
+        title={modalData.title}
+        desc={modalData.desc}
+        onClose={() => setModalData((prev) => ({ ...prev, isOpen: false }))}
       />
     </>
   );

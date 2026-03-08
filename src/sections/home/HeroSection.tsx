@@ -53,17 +53,15 @@ const HeroSection = () => {
         </p>
 
         <div className="flex flex-col gap-4 sm:flex-row justify-center">
-          <button className="rounded-xl bg-white px-8 py-3 font-semibold text-primary transition hover:scale-105 hover:bg-white/90">
+          <button className=" bg-white px-8 py-3 font-semibold text-primary transition hover:scale-105 hover:bg-white/90">
             {t("exploreBtn")}
           </button>
 
-          <button className="rounded-xl border border-white/40 px-8 py-3 font-semibold text-white transition hover:bg-white/15">
+          <button className=" border border-white/40 px-8 py-3 font-semibold text-white transition hover:bg-white/15">
             {t("learnBtn")}
           </button>
         </div>
       </div>
-
-      {/* ✅ القوس بأسفل الهيرو */}
       <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
         <svg
           viewBox="0 0 1440 150"

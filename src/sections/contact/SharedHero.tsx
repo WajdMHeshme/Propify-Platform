@@ -39,10 +39,9 @@ export default function SharedHero({
         </div>
       </div>
 
-      {/* Filter — يظهر وكأنه يخرج من أسفل الهيرو */}
+
       {showFilter && (
         <div className="-mt-12 md:-mt-16 px-4">
-          {/* px-4 لتبقى نفس الـ horizontal padding */}
           <HeroFilterSection onFilterChange={onFilterChange} />
         </div>
       )}

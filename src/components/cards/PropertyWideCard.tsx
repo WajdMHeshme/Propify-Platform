@@ -132,7 +132,7 @@ export default function PropertyCardVariant({
               </div>
 
               <div className="text-right">
-                <div className="text-xl md:text-2xl font-bold text-gray-900">
+                <div className="text-xl md:text-3xl font-bold text-primary">
                   {priceDisplay}
                 </div>
                 {priceWeekly && (
@@ -190,13 +190,13 @@ export default function PropertyCardVariant({
             <div className="flex items-center gap-3">
               <a
                 href={`tel:+000000000`}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-full shadow hover:bg-indigo-700 text-sm"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white  shadow hover:bg-primary-700 text-sm"
               >
                 <FaPhoneAlt /> Call
               </a>
               <Link
                 to={`/properties/${property.id}`}
-                className="inline-flex items-center gap-2 px-4 py-2 border border-indigo-200 text-indigo-600 rounded-full hover:bg-indigo-50 text-sm"
+                className="inline-flex items-center gap-2 px-4 py-2 border border-primary-200 text-primary  hover:bg-indigo-50 text-sm"
               >
                 View Details
               </Link>

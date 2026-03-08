@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRegister } from "../../hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import AuthForm from "../../components/auth/AuthForm";
 import type { RegisterRequest } from "../../types/auth";
+import Modal from "../../components/modal/Modal";
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutate, isPending, error } = useRegister();
+
+  const [modal, setModal] = useState({
+    isOpen: false,
+    type: "success" as "success" | "error",
+    title: "",
+    desc: "",
+  });
 
   const handleRegister = (data: RegisterRequest) => {
     mutate(data, {
@@ -19,8 +27,21 @@ const RegisterPage: React.FC = () => {
         // ✅ 2. حدث currentUser فورًا
         queryClient.invalidateQueries({ queryKey: ["currentUser"] });
 
-        // ✅ 3. روح للصفحة الرئيسية
-        navigate("/");
+        // ✅ 3. افتح المودال ثم نعمل redirect بعد الإغلاق
+        setModal({
+          isOpen: true,
+          type: "success",
+          title: "Account Created",
+          desc: "Your account has been successfully created. Redirecting to the dashboard...",
+        });
+      },
+      onError: (err: any) => {
+        setModal({
+          isOpen: true,
+          type: "error",
+          title: "Registration Failed",
+          desc: err?.message || "Something went wrong. Please try again later.",
+        });
       },
     });
   };
@@ -93,6 +114,22 @@ const RegisterPage: React.FC = () => {
           </p>
         </div>
       </div>
+
+      {/* BookingModal - same structure, pass title + desc */}
+      <Modal
+        isOpen={modal.isOpen}
+        type={modal.type}
+        title={modal.title}
+        desc={modal.desc}
+        onClose={() =>
+          setModal((prev) => {
+            if (prev.type === "success") {
+              navigate("/");
+            }
+            return { ...prev, isOpen: false };
+          })
+        }
+      />
     </div>
   );
 };

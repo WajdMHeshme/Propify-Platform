@@ -19,10 +19,10 @@ export default function CallToAction() {
         </h2>
 
         <div className="flex flex-col sm:flex-row gap-4 mt-4">
-          <Link to="/register" className="bg-white text-primary font-semibold px-6 py-2 rounded-lg hover:bg-white/90 transition">
+          <Link to="/register" className="bg-white text-primary font-semibold px-6 py-2 hover:bg-white/90 transition">
             Sign Up
           </Link>
-          <Link to="/contact-us" className="border border-white text-white font-semibold px-6 py-2 rounded-lg hover:bg-white/10 transition">
+          <Link to="/contact-us" className="border border-white text-white font-semibold px-6 py-2 hover:bg-white/10 transition">
             Contact Us
           </Link>
         </div>

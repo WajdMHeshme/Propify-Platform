@@ -2,20 +2,15 @@
 // PropertyImages Component
 // ----------------------
 
-
-
-
-
-
-export  const PropertyImages: React.FC<{ main_image?: string | null; images?: string[] }> = ({ main_image, images }) => {
+export const PropertyImages: React.FC<{
+  main_image?: string | null;
+  images?: string[];
+}> = ({ main_image, images }) => {
   const allImages = [main_image, ...(images ?? [])].filter(Boolean) as string[];
   const MAX = 4;
   const displayImages = allImages.slice(0, MAX);
   const extraCount = allImages.length - MAX;
   const FALLBACK_IMAGE = "/placeholder.png";
-
-
-
 
   return (
     <div className="grid grid-cols-3 grid-rows-2 gap-2 h-56 md:h-full">
@@ -34,9 +29,14 @@ export  const PropertyImages: React.FC<{ main_image?: string | null; images?: st
       {displayImages.slice(1).map((img, idx) => {
         const isLast = idx === 2 && extraCount > 0;
         return (
-          <div key={idx} className="relative overflow-hidden rounded-xl shadow-sm group">
+          <div
+            key={idx}
+            className="relative overflow-hidden rounded-xl shadow-sm group"
+          >
             <img
-              src={img ? `http://127.0.0.1:8000/storage/${img}` : FALLBACK_IMAGE}
+              src={
+                img ? `http://127.0.0.1:8000/storage/${img}` : FALLBACK_IMAGE
+              }
               alt={`property-${idx + 1}`}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />

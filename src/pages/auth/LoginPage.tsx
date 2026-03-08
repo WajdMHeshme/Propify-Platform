@@ -1,26 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthForm from "../../components/auth/AuthForm";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import type { LoginRequest } from "../../types/auth";
+import Modal from "../../components/modal/Modal";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutate, isPending, error } = useLogin();
 
+  const [modal, setModal] = useState({
+    isOpen: false,
+    type: "success" as "success" | "error",
+    title: "",
+    desc: "",
+  });
+
   const handleLogin = (data: LoginRequest) => {
     mutate(data, {
       onSuccess: (res) => {
-        // ✅ 1. خزّن التوكن
         localStorage.setItem("token", res.token);
-
-        // ✅ 2. حدث currentUser مباشرة
         queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-
-        // ✅ 3. انتقل للصفحة الرئيسية
-        navigate("/");
+        setModal({
+          isOpen: true,
+          type: "success",
+          title: "Login Successful",
+          desc: "Welcome back! You have successfully signed in to your Propify account.",
+        });
+      },
+      onError: (err: any) => {
+        setModal({
+          isOpen: true,
+          type: "error",
+          title: "Login Failed",
+          desc: err?.message || "Login failed. Please check your credentials and try again.",
+        });
       },
     });
   };
@@ -93,6 +109,23 @@ const LoginPage: React.FC = () => {
           </p>
         </div>
       </div>
+
+      {/* BookingModal - نفس الهيكل، نمرّر title + desc */}
+      <Modal
+        isOpen={modal.isOpen}
+        type={modal.type}
+        title={modal.title}
+        desc={modal.desc}
+        onClose={() =>
+          setModal((prev) => {
+            // لو النجاح => نعمل navigate بعد الإغلاق
+            if (prev.type === "success") {
+              navigate("/");
+            }
+            return { ...prev, isOpen: false };
+          })
+        }
+      />
     </div>
   );
 };
