@@ -10,16 +10,6 @@ export default function BookingMessagesPage() {
   const bookingId = Number(id);
 
   const { messages, loading, error } = useBookingMessages(bookingId);
-
-  console.debug(
-    "BookingMessagesPage messages:",
-    messages,
-    "loading:",
-    loading,
-    "error:",
-    error,
-  );
-  console.log("id param:", id, "bookingId:", bookingId);
   return (
     <div className="min-h-screen bg- flex flex-col mt-9">
       {/* Header */}

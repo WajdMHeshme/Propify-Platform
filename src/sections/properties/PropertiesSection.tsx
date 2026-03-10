@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useProperties, type PropertiesFilters } from "../../hooks/useProperties";
 import PropertyWideCard from "../../components/cards/PropertyWideCard";
 import { CardSkeleton } from "../../components/ui/loaders/CardSkeleton";
@@ -14,6 +15,8 @@ const PaginationControls: React.FC<{
   last: number;
   onChange: (page: number) => void;
 }> = ({ current, last, onChange }) => {
+  const { t } = useTranslation("properties");
+
   const pages = useMemo(() => {
     const result: (number | "…")[] = [];
     if (last <= 7) {
@@ -32,28 +35,43 @@ const PaginationControls: React.FC<{
 
   return (
     <nav aria-label="Pagination" className="flex items-center justify-center gap-2 mt-6">
-      <button onClick={() => onChange(Math.max(1, current - 1))} disabled={current === 1} className="px-3 py-1 rounded-md border shadow-sm bg-white disabled:opacity-50">
-        Prev
+      <button
+        onClick={() => onChange(Math.max(1, current - 1))}
+        disabled={current === 1}
+        className="px-3 py-1 rounded-md border shadow-sm bg-white disabled:opacity-50"
+      >
+        {t("prev")}
       </button>
 
       {pages.map((p, idx) =>
         p === "…" ? (
           <span key={`dot-${idx}`} className="px-2 text-gray-500">…</span>
         ) : (
-          <button key={p} onClick={() => onChange(Number(p))} aria-current={p === current ? "page" : undefined} className={`px-3 py-1 rounded-md border shadow-sm ${p === current ? "bg-primary text-white" : "bg-white"}`}>
+          <button
+            key={p}
+            onClick={() => onChange(Number(p))}
+            aria-current={p === current ? "page" : undefined}
+            className={`px-3 py-1 rounded-md border shadow-sm ${p === current ? "bg-primary text-white" : "bg-white"}`}
+          >
             {p}
           </button>
         )
       )}
 
-      <button onClick={() => onChange(Math.min(last, current + 1))} disabled={current === last} className="px-3 py-1 rounded-md border shadow-sm bg-white disabled:opacity-50">
-        Next
+      <button
+        onClick={() => onChange(Math.min(last, current + 1))}
+        disabled={current === last}
+        className="px-3 py-1 rounded-md border shadow-sm bg-white disabled:opacity-50"
+      >
+        {t("next")}
       </button>
     </nav>
   );
 };
 
 export const PropertiesSection: React.FC<Props> = ({ filters, onPageChange }) => {
+  const { t } = useTranslation("properties");
+
   const { data, isLoading, isError, isFetching } = useProperties(filters);
 
   const properties: Property[] = data?.data ?? [];
@@ -64,18 +82,37 @@ export const PropertiesSection: React.FC<Props> = ({ filters, onPageChange }) =>
   return (
     <section className="py-12 w-full px-6 lg:px-16 space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold text-primary">Properties</h2>
-        <div className="text-sm text-gray-500">{isFetching ? "Updating..." : `Page ${currentPage} of ${lastPage}`}</div>
+        <h2 className="text-2xl font-semibold text-primary">
+          {t("title")}
+        </h2>
+
+        <div className="text-sm text-gray-500">
+          {isFetching
+            ? t("updating")
+            : t("pageInfo", { current: currentPage, total: lastPage })}
+        </div>
       </div>
 
-      {isError && <div className="text-center py-10 text-red-500">Failed to load properties</div>}
+      {isError && (
+        <div className="text-center py-10 text-red-500">
+          {t("loadError")}
+        </div>
+      )}
 
       <div className="flex flex-col space-y-6">
-        {isLoading && !properties.length ? Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={i} />) : properties.map((property: Property) => <PropertyWideCard key={property.id} property={property} />)}
+        {isLoading && !properties.length
+          ? Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={i} />)
+          : properties.map((property: Property) => (
+              <PropertyWideCard key={property.id} property={property} />
+            ))}
       </div>
 
       {!isLoading && properties.length > 0 && (
-        <PaginationControls current={Number(currentPage)} last={Number(lastPage)} onChange={(p) => onPageChange(p)} />
+        <PaginationControls
+          current={Number(currentPage)}
+          last={Number(lastPage)}
+          onChange={(p) => onPageChange(p)}
+        />
       )}
     </section>
   );

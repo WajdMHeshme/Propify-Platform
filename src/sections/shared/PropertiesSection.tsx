@@ -1,9 +1,8 @@
 // src/sections/shared/PropertiesSliderSection.tsx
 import TitleSection from "./TitleSection";
-import { sectionsTitles } from "../../data/data";
 import { useProperties } from "../../hooks/useProperties";
 import PropertyCard from "../../components/cards/PropertyCard";
-import PropertyCardSkeleton from "../../components/cards/PropertyCardSkeleton";
+import PropertyCardSkeleton from "../../components/ui/loaders/PropertyCardSkeleton";
 import Slider from "../../components/ui/Slider";
 import { useState } from "react";
 import { useFavorites } from "../../hooks/useFavorites";
@@ -14,22 +13,13 @@ const PropertiesSliderSection = () => {
   const items = data?.data ?? [];
 
   const { favorites, toggleFavorite } = useFavorites();
-
   const isFav = (propId: any) =>
     favorites.some((f) => String(f.property?.id) === String(propId));
 
   return (
     <section className="py-12">
       <div className="max-w-7xl mx-auto px-4">
-        <TitleSection
-          title={sectionsTitles?.properties.title}
-          keyword={sectionsTitles?.properties.keyword}
-          desc={sectionsTitles?.properties.desc}
-          underline
-          underlineSize="lg"
-          underlineClassName="text-primary"
-        />
-
+<TitleSection sectionKey="properties" underline underlineSize="lg" />
         {isLoading ? (
           <div className="flex gap-4">
             {Array.from({ length: 3 }).map((_, i) => (
@@ -51,7 +41,6 @@ const PropertiesSliderSection = () => {
                 onToggleFavorite={async (propertyId) => {
                   try {
                     await toggleFavorite(propertyId);
-                    // optional: show toast
                   } catch (err) {
                     console.error("toggle favorite failed", err);
                   }

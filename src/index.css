@@ -2,12 +2,13 @@
    Fonts
 ========================= */
 
-/* Poppins - Headings */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+/* =========================
+   Fonts
+========================= */
 
-/* Inter - Body */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
+/* Cairo - Arabic */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
 
 @import "tailwindcss";
 
@@ -89,6 +90,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+html[lang="ar"] body {
+  font-family: 'Cairo', system-ui, sans-serif;
+}
+
 
 button,
 a,
@@ -111,6 +116,14 @@ h6 {
   line-height: 1.25;
 }
 
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] h5,
+html[lang="ar"] h6 {
+  font-family: 'Cairo', system-ui, sans-serif;
+}
 
 ::selection {
   background: #7a73ff;

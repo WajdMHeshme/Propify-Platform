@@ -1,0 +1,12 @@
+{
+  "pageTitle": "إنشاء حساب",
+  "pageSubtitle": "سجّل حسابك على Propify",
+  "feature1": "إدارة العقارات في مكان واحد",
+  "feature2": "تتبع المستأجرين والمدفوعات بسهولة",
+  "feature3": "منصة آمنة وسحابية",
+  "modalSuccessTitle": "تم إنشاء الحساب",
+  "modalSuccessDesc": "تم إنشاء حسابك بنجاح. سيتم تحويلك للوحة التحكم...",
+  "modalErrorTitle": "فشل التسجيل",
+  "modalErrorDesc": "حدث خطأ ما. يرجى المحاولة لاحقاً.",
+  "footer": "© {{year}} Propify. كل الحقوق محفوظة."
+}

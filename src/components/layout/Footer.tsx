@@ -1,10 +1,15 @@
+// src/components/layout/Footer.tsx
 import React from "react";
 import { FaFacebookF, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import FloatingIcons from "../ui/FloatingIcons";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+  const { t } = useTranslation("footer"); // استخدمنا namespace "footer"
+
   return (
-    <footer className="relative overflow-hidden bg-gradient-to-r from-primary to-primary-dark text-white">
+    <footer className="relative overflow-hidden bg-linear-to-r from-primary to-primary-dark text-white">
       <FloatingIcons />
 
       {/* Decorative wave at top */}
@@ -27,34 +32,34 @@ export default function Footer() {
           <div className="flex items-center gap-4">
             <img
               src="/assets/icons/propify.png"
-              alt="Propify logo"
+              alt={t("logoAlt")}
               className="w-20 h-20 object-cover"
             />
             <div>
               <h3 className="text-xl font-semibold">Propify</h3>
               <p className="text-sm opacity-80 mt-1 max-w-xs">
-                Real estate platform for properties, bookings, and management.
+                {t("description")}
               </p>
             </div>
           </div>
 
           {/* Navigation */}
-          <nav aria-label="Footer Navigation" className="flex justify-center">
+          <nav aria-label={t("navLabel")} className="flex justify-center">
             <ul className="flex gap-6 text-sm font-medium">
               <li>
-                <a href="#" className="hover:underline hover:opacity-95">
-                  Home
-                </a>
+                <Link to="/" className="hover:underline hover:opacity-95">
+                  {t("home")}
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:underline hover:opacity-95">
-                  Properties
-                </a>
+                <Link to="/properties" className="hover:underline hover:opacity-95">
+                  {t("properties")}
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:underline hover:opacity-95">
-                  Contact Us
-                </a>
+                <Link to="/contact-us" className="hover:underline hover:opacity-95">
+                  {t("contactUs")}
+                </Link>
               </li>
             </ul>
           </nav>
@@ -79,8 +84,10 @@ export default function Footer() {
         <div className="w-full h-px bg-white/10 rounded-full my-6" />
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-xs opacity-80">
-          <p>© {new Date().getFullYear()} Propify. All rights reserved.</p>
-          <p className="text-xs">Made with ❤️ by Wajd Heshme</p>
+          <p>
+            © {new Date().getFullYear()} Propify. {t("allRightsReserved")}
+          </p>
+          <p className="text-xs">{t("madeBy")}</p>
         </div>
       </div>
 

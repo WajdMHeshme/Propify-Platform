@@ -1,22 +1,42 @@
 // src/components/profile/RecentBookingsCard.tsx
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaCalendarCheck } from "react-icons/fa";
+import { FaCalendarCheck, FaCalendarTimes } from "react-icons/fa";
+import { LuCalendarClock } from "react-icons/lu";
 import { getImageUrl } from "../../utils/getImageUrl";
+import type { RecentBookingsProps } from "../../types/ui";
+import { useTranslation } from "react-i18next";
 
-type Props = {
-  bookings: any[];
-  loading?: boolean;
-};
-
-const RecentBookingsCard: React.FC<Props> = ({ bookings = [], loading = false }) => {
+const RecentBookingsCard: React.FC<RecentBookingsProps> = ({ bookings = [], loading = false }) => {
+  const { t, i18n } = useTranslation("profile"); // profile namespace
   const items = Array.isArray(bookings) ? bookings.slice(0, 5) : [];
+  const isRTL = i18n.dir(i18n.language) === "rtl";
+
+  const renderStatusIcon = (status?: string) => {
+    const s = (status ?? "").toLowerCase();
+    switch (s) {
+      case "completed":
+      case "done":
+        return <FaCalendarCheck className="text-green-500 text-xl" aria-hidden />;
+      case "pending":
+      case "waiting":
+        return <LuCalendarClock className="text-amber-500 text-xl" aria-hidden />;
+      case "rejected":
+      case "cancelled":
+      case "canceled":
+        return <FaCalendarTimes className="text-red-500 text-xl" aria-hidden />;
+      default:
+        return <FaCalendarCheck className="text-gray-400 text-xl" aria-hidden />;
+    }
+  };
 
   return (
     <div className="bg-white shadow rounded-2xl p-5">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-lg font-semibold text-primary">Recent Bookings</h3>
-        <Link to="/bookings" className="text-sm text-primary hover:underline">View All</Link>
+        <h3 className="text-lg font-semibold text-primary">{t("recentBookings")}</h3>
+        <Link to="/bookings" className="text-sm text-primary hover:underline">
+          {t("viewAll")}
+        </Link>
       </div>
 
       {loading ? (
@@ -32,31 +52,49 @@ const RecentBookingsCard: React.FC<Props> = ({ bookings = [], loading = false })
           ))}
         </div>
       ) : items.length === 0 ? (
-        <p className="text-sm text-gray-500">No recent bookings found.</p>
+        <p className="text-sm text-gray-500">{t("noRecentBookings")}</p>
       ) : (
         <ul className="space-y-3">
           {items.map((b: any) => (
-            <li key={b.id ?? `${b.property?.id}-${b.date_time ?? Math.random()}`} className="flex items-center gap-3">
+            <li
+              key={b.id ?? `${b.property?.id}-${b.date_time ?? Math.random()}`}
+              className="flex items-center gap-3"
+            >
               <div className="w-14 h-14 rounded-md bg-gray-100 overflow-hidden shrink-0 flex items-center justify-center">
                 {b.property?.images?.[0] ? (
                   <img
                     src={getImageUrl(b.property.images[0])}
-                    alt={b.property?.title ?? "property"}
+                    alt={b.property?.title ?? t("property")}
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <FaCalendarCheck className="text-primary text-xl" />
+                  <span
+                    className="flex items-center justify-center w-full h-full"
+                    aria-label={`booking status ${b.status ?? "unknown"}`}
+                  >
+                    {renderStatusIcon(b.status)}
+                  </span>
                 )}
               </div>
 
               <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium truncate text-gray-900">{b.property?.title ?? "Property"}</p>
-                  <span className="text-xs text-gray-400">{b.status ?? ""}</span>
+                <div
+                  className={`flex items-center justify-between ${
+                    isRTL ? "flex-row-reverse" : "flex-row"
+                  }`}
+                >
+                  <p className="text-sm font-medium truncate text-gray-900">
+                    {b.property?.title ?? t("property")}
+                  </p>
+                  <span className="text-xs text-gray-400 flex items-center gap-1">
+                    <span>{b.status ? t(`status.${b.status.toLowerCase()}`, b.status) : ""}</span>
+                  </span>
                 </div>
                 <p className="text-xs text-gray-500 truncate">
-                  {b.date_time ? new Date(b.date_time).toLocaleString()
-                    : b.created_at ? new Date(b.created_at).toLocaleString()
+                  {b.date_time
+                    ? new Date(b.date_time).toLocaleString()
+                    : b.created_at
+                    ? new Date(b.created_at).toLocaleString()
                     : ""}
                 </p>
               </div>

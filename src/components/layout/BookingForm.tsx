@@ -4,14 +4,16 @@ import { FiPhone, FiShare2, FiCalendar } from "react-icons/fi";
 import { RiHeartAdd2Line } from "react-icons/ri";
 import Flatpickr from "flatpickr";
 import { bookProperty } from "../../services/property.service";
-import Modal from "../modal/Modal"; // استدعاء المودال الجديد
+import Modal from "../modal/Modal";
 import { useFavorites } from "../../hooks/useFavorites";
+import { useTranslation } from "react-i18next";
 
 interface BookingFormProps {
   propertyId: number | string;
 }
 
 export default function BookingForm({ propertyId }: BookingFormProps) {
+  const { t } = useTranslation("properties");
   const [loading, setLoading] = useState(false);
   const [modalData, setModalData] = useState({
     isOpen: false,
@@ -19,15 +21,10 @@ export default function BookingForm({ propertyId }: BookingFormProps) {
     title: "",
     desc: "",
   });
-
   const [savingFav, setSavingFav] = useState(false);
-
   const dateInputRef = useRef<HTMLInputElement>(null);
-
-  // Favorites hook - use addFavorite directly
   const { favorites, addFavorite } = useFavorites();
 
-  // Initialize Flatpickr
   useEffect(() => {
     if (dateInputRef.current) {
       Flatpickr(dateInputRef.current, {
@@ -39,7 +36,7 @@ export default function BookingForm({ propertyId }: BookingFormProps) {
 
   const handleBooking = async () => {
     if (!dateInputRef.current?.value) {
-      showModal("error", "Missing Date & Time", "Please select a date & time first.");
+      showModal("error", t("missingDateTitle"), t("missingDateDesc"));
       return;
     }
 
@@ -49,46 +46,40 @@ export default function BookingForm({ propertyId }: BookingFormProps) {
         property_id: Number(propertyId),
         date_time: dateInputRef.current.value,
       });
-      showModal("success", "Booking Sent", "Your booking request has been sent successfully!");
+      showModal("success", t("bookingSentTitle"), t("bookingSentDesc"));
       dateInputRef.current.value = "";
     } catch (err: any) {
       showModal(
         "error",
-        "Booking Failed",
-        err?.message || "There was an issue sending your booking. Please try again."
+        t("bookingFailedTitle"),
+        err?.message || t("bookingFailedDesc")
       );
     } finally {
       setLoading(false);
     }
-    console.log("Booking propertyId:", propertyId, typeof propertyId);
   };
 
   const showModal = (type: "success" | "error", title: string, desc: string) => {
     setModalData({ isOpen: true, type, title, desc });
   };
 
-  // handle Save (always add favorite)
   const handleSave = async () => {
     if (savingFav) return;
     setSavingFav(true);
-
     try {
-      // if already favorited (by property id) show message and do nothing
       const already = favorites.find((f) => String(f.property?.id) === String(propertyId));
       if (already) {
-        showModal("success", "Already Saved", "This property is already in your favorites.");
+        showModal("success", t("alreadySavedTitle"), t("alreadySavedDesc"));
         return;
       }
-
-      // call addFavorite (your hook does optimistic update + returns created)
       const created = await addFavorite(propertyId);
-      showModal("success", "Added to Favorites", "This property was added to your favorites.");
+      showModal("success", t("addedToFavoritesTitle"), t("addedToFavoritesDesc"));
       return created;
     } catch (err: any) {
       showModal(
         "error",
-        "Favorite Failed",
-        err?.message || "Failed to add to favorites. Please try again."
+        t("favoriteFailedTitle"),
+        err?.message || t("favoriteFailedDesc")
       );
       throw err;
     } finally {
@@ -100,7 +91,7 @@ export default function BookingForm({ propertyId }: BookingFormProps) {
     <>
       <div className="border-2 border-gray-200 rounded-2xl p-6 bg-white space-y-4 shadow-sm">
         <button className="w-full bg-indigo-600 text-white py-3 rounded-lg flex justify-center items-center gap-2 hover:scale-105 transition-transform">
-          <FiPhone /> Request a Visit
+          <FiPhone /> {t("requestVisit")}
         </button>
 
         <div className="grid grid-cols-2 gap-2">
@@ -108,25 +99,25 @@ export default function BookingForm({ propertyId }: BookingFormProps) {
             onClick={handleSave}
             disabled={savingFav}
             className="py-2 flex justify-center items-center gap-2 border border-gray-300 rounded-2xl hover:bg-red-50 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-            title="Save"
+            title={t("save")}
           >
             <RiHeartAdd2Line />
-            {savingFav ? "Saving..." : "Save"}
+            {savingFav ? t("saving") : t("save")}
           </button>
 
           <button className="py-2 flex justify-center items-center gap-2 border border-gray-300 rounded-2xl hover:bg-blue-50 transition-colors">
-            <FiShare2 /> Share
+            <FiShare2 /> {t("share")}
           </button>
         </div>
 
         <hr className="border-gray-200 my-4" />
 
-        <h3 className="font-semibold text-lg text-gray-800">Request Booking</h3>
+        <h3 className="font-semibold text-lg text-gray-800">{t("requestBooking")}</h3>
         <div className="relative">
           <input
             ref={dateInputRef}
             type="text"
-            placeholder="Choose date & time"
+            placeholder={t("chooseDateTime")}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-200 focus:outline-none"
             readOnly
           />
@@ -138,7 +129,7 @@ export default function BookingForm({ propertyId }: BookingFormProps) {
           disabled={loading}
           className="w-full bg-indigo-600 text-white py-3 rounded-lg mt-3 hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? "Sending..." : "Send Booking Request"}
+          {loading ? t("sending") : t("sendBookingRequest")}
         </button>
       </div>
 

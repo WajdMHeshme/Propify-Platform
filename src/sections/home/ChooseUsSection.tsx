@@ -1,6 +1,12 @@
 import ChooseUsCard from "../../components/cards/ChooseUsCard";
-import { chooseUsFeatures } from "../../data/data";
 import TitleSection from "../shared/TitleSection";
+
+const chooseUsFeatures = [
+  { id: 1, icon: "home", featureKey: "verifiedProperties" },
+  { id: 2, icon: "shield", featureKey: "securePayments" },
+  { id: 3, icon: "clock", featureKey: "fastBooking" },
+  { id: 4, icon: "support", featureKey: "support247" },
+];
 
 export default function ChooseUsSection() {
   return (
@@ -8,22 +14,19 @@ export default function ChooseUsSection() {
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Title */}
         <TitleSection
-          title="Why Choose"
-          desc="Discover the benefits of choosing Propify for your real estate needs. We are committed to providing exceptional service and unparalleled expertise."
-          keyword="Propify"
+          sectionKey="chooseUsTitle"
           underline
           underlineSize="lg"
           underlineClassName="text-primary"
         />
 
         {/* Cards Grid */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 mt-10">
           {chooseUsFeatures.map((feature) => (
             <ChooseUsCard
               key={feature.id}
               icon={feature.icon}
-              title={feature.title}
-              description={feature.description}
+              featureKey={feature.featureKey} // الترجمة الآن تعمل
             />
           ))}
         </div>

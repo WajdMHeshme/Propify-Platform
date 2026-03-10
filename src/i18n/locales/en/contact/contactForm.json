@@ -1,0 +1,25 @@
+{
+  "contactForm": {
+    "supportTeamLabel": "Support Team",
+    "title": "We're Here to Help",
+    "desc": "Whether you have a booking issue, payment question, or need help finding the perfect hotel — our team is ready to assist you.",
+    "email": "support@resvbar.com",
+    "phone": "+1 000 000 000",
+    "location": "Los Angeles, USA",
+    "formTitle": "Send us a Message",
+    "placeholders": {
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "subject": "Select Subject",
+      "message": "Your Message"
+    },
+    "options": {
+      "booking": "Booking Issue",
+      "payment": "Payment Problem",
+      "technical": "Technical Issue",
+      "partnership": "Partnership",
+      "general": "General Inquiry"
+    },
+    "submit": "Send Message"
+  }
+}

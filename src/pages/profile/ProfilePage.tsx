@@ -9,8 +9,11 @@ import { useFavorites } from "../../hooks/useFavorites";
 import AccountCard from "../../components/profile/AccountCard";
 import FavoritesCard from "../../components/profile/FavoritesCard";
 import RecentBookingsCard from "../../components/profile/RecentBookingsCard";
+import { useTranslation } from "react-i18next";
 
 const ProfilePage: React.FC = () => {
+  const { t } = useTranslation("profile"); // use "profile" namespace
+
   const {
     data: user,
     isLoading: userLoading,
@@ -60,9 +63,9 @@ const ProfilePage: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
         <div className="bg-white p-6 rounded-2xl shadow max-w-md w-full text-center">
-          <p className="text-red-500 mb-4">حدث خطأ أثناء جلب بيانات الحساب.</p>
+          <p className="text-red-500 mb-4">{t("errorFetchingAccount")}</p>
           <p className="text-sm text-gray-500">
-            {(error as Error)?.message ?? "Unknown error"}
+            {(error as Error)?.message ?? t("unknownError")}
           </p>
         </div>
       </div>
@@ -73,19 +76,19 @@ const ProfilePage: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
         <div className="bg-white p-8 rounded-2xl shadow max-w-md w-full text-center">
-          <p className="text-gray-700 mb-4">You are not logged in.</p>
+          <p className="text-gray-700 mb-4">{t("notLoggedIn")}</p>
           <div className="flex justify-center gap-3">
             <button
               onClick={() => navigate("/login")}
               className="px-4 py-2 rounded-xl bg-gray-900 text-white"
             >
-              Login
+              {t("login")}
             </button>
             <button
               onClick={() => navigate("/register")}
               className="px-4 py-2 rounded-xl border border-gray-900 text-gray-900"
             >
-              Create Account
+              {t("createAccount")}
             </button>
           </div>
         </div>
@@ -99,60 +102,55 @@ const ProfilePage: React.FC = () => {
         {/* Page title */}
         <header className="text-center">
           <h1 className="text-2xl md:text-3xl font-bold text-primary">
-            My Profile
+            {t("myProfile")}
           </h1>
           <p className="text-sm text-gray-500 mt-1">
-            Update your info and manage your bookings & favorites.
+            {t("updateInfoAndManage")}
           </p>
         </header>
 
-        {/* Account card (component) */}
+        {/* Account card */}
         <AccountCard user={user} initials={initials} onLogout={handleLogout} />
 
         {/* Note */}
         <div className="bg-white rounded-2xl shadow p-4">
-          <p className="text-sm text-gray-700">
-            Please ensure your information is correct here — it will be used to
-            issue signatures and send booking notifications.{" "}
-          </p>
+          <p className="text-sm text-gray-700">{t("accountNote")}</p>
         </div>
 
-        {/* Favorites (component) */}
+        {/* Favorites */}
         <FavoritesCard
           favorites={favorites}
           loading={favoritesLoading}
           onRefresh={refetchFavorites}
         />
 
-        {/* Recent bookings (component) */}
+        {/* Recent bookings */}
         <RecentBookingsCard bookings={bookings} loading={bookingsLoading} />
 
         {/* Final CTA */}
         <div className="bg-white flex-col sm:flex-row rounded-2xl shadow p-6 flex items-center justify-between">
           <div className="py-4">
             <h3 className="text-lg font-semibold text-primary">
-              Ready to browse more properties?
+              {t("readyToBrowse")}
             </h3>
-            <p className="text-sm text-gray-500 mt-1">
-              Explore available listings and find your next stay.
-            </p>
+            <p className="text-sm text-gray-500 mt-1">{t("exploreListings")}</p>
           </div>
 
-<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-  <Link
-    to="/properties"
-    className="px-4 py-2 bg-primary text-white shadow text-center w-full sm:w-auto"
-  >
-    Browse Properties
-  </Link>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+            <Link
+              to="/properties"
+              className="px-4 py-2 bg-primary text-white shadow text-center w-full sm:w-auto"
+            >
+              {t("browseProperties")}
+            </Link>
 
-  <Link
-    to="/contact-us"
-    className="px-3 py-2 border border-primary text-primary text-sm text-center w-full sm:w-auto"
-  >
-    Contact Support
-  </Link>
-</div>
+            <Link
+              to="/contact-us"
+              className="px-3 py-2 border border-primary text-primary text-sm text-center w-full sm:w-auto"
+            >
+              {t("contactSupport")}
+            </Link>
+          </div>
         </div>
       </div>
     </div>

@@ -5,11 +5,13 @@ import {
   PiBookmarksSimpleBold,
   PiCaretDownBold,
 } from "react-icons/pi";
+import { useTranslation } from "react-i18next";
 
 export default function MyActivityDropdown() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
+  const { t } = useTranslation("navbar");
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -39,17 +41,17 @@ export default function MyActivityDropdown() {
   return (
     <div className="relative" ref={ref}>
       {/* Trigger Button */}
-<button
-  onClick={() => setOpen(!open)}
-  className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition 
-  ${open ? "text-primary bg-gray-50" : "text-gray-600 hover:bg-gray-100"}`}
->
-  Activity
-  <PiCaretDownBold
-    size={14}
-    className={`transition-transform ${open ? "rotate-180 text-primary" : ""}`}
-  />
-</button>
+      <button
+        onClick={() => setOpen(!open)}
+        className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition 
+        ${open ? "text-primary bg-gray-50" : "text-gray-600 hover:bg-gray-100"}`}
+      >
+        {t("activity")}
+        <PiCaretDownBold
+          size={14}
+          className={`transition-transform ${open ? "rotate-180 text-primary" : ""}`}
+        />
+      </button>
 
       {/* Dropdown */}
       {open && (
@@ -61,7 +63,7 @@ export default function MyActivityDropdown() {
               className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-gray-50 transition"
             >
               <PiHeartStraightBold size={18} className="text-primary" />
-              <span>Favorites</span>
+              <span>{t("favorites")}</span>
             </button>
 
             <button
@@ -69,7 +71,7 @@ export default function MyActivityDropdown() {
               className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-gray-50 transition"
             >
               <PiBookmarksSimpleBold size={18} className="text-primary" />
-              <span>My Bookings</span>
+              <span>{t("bookings")}</span>
             </button>
 
           </div>

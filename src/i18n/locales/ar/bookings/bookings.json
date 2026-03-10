@@ -1,0 +1,23 @@
+{
+  "na": "غير متوفر",
+  "previousBookingsTitle": "حجوزاتي السابقة",
+  "mustBeLoggedInTitle": "يجب أن تكون مسجل الدخول!",
+  "mustBeLoggedInDesc": "يرجى تسجيل الدخول لعرض حجوزاتك السابقة.",
+  "login": "تسجيل الدخول",
+  "register": "إنشاء حساب",
+  "noBookingsTitle": "لا توجد حجوزات",
+  "noBookingsDesc": "لم تقم بأي حجوزات بعد. ابدأ بتصفح العقارات واحجز مكانك المفضل اليوم!",
+  "property": "عقار",
+  "scheduled": "الموعد",
+  "makePayment": "إجراء الدفع",
+  "viewMessages": "عرض الرسائل",
+  "status": {
+    "pending": "قيد الانتظار",
+    "approved": "مقبول",
+    "completed": "مكتمل",
+    "rejected": "مرفوض",
+    "cancelled": "ملغى",
+    "canceled": "ملغى",
+    "waiting": "قيد الانتظار"
+  }
+}

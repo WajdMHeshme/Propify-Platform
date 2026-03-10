@@ -1,0 +1,19 @@
+{
+    "supportHours": {
+        "availabilityLabel": "Availability",
+        "title": "Support Hours",
+        "desc": "Our support team is available during the following hours to assist you with bookings, payments, or any technical issues.",
+        "days": {
+            "mondayToFriday": "Monday - Friday",
+            "saturday": "Saturday",
+            "sunday": "Sunday",
+            "emergency": "Emergency Support"
+        },
+        "times": {
+            "mondayToFriday": "9:00 AM - 6:00 PM",
+            "saturday": "10:00 AM - 4:00 PM",
+            "sunday": "Online Support Only",
+            "emergency": "24/7 Email"
+        }
+    }
+}

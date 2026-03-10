@@ -1,0 +1,13 @@
+{
+  "heroFilter": {
+    "cities": ["Lattakia", "Aleppo", "Homs", "Damascus"],
+    "prices": ["< $1000", "$1000 - $3000", "$3000 - $5000", "> $5000"],
+    "statuses": ["Available", "Rented"],
+    "placeholders": {
+      "city": "Select City",
+      "price": "Select Price",
+      "status": "Select Status"
+    },
+    "button": "Filter"
+  }
+}

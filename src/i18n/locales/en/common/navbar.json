@@ -1,0 +1,15 @@
+{
+  "home": "Home",
+  "properties": "Properties",
+  "contactUs": "Contact Us",
+  "language": "Language",
+  "toggleLanguage": "Toggle Language",
+  "bookings": "Bookings",
+  "favorites": "Favorites",
+  "profile": "Profile",
+  "logout": "Logout",
+  "signIn": "Sign In",
+  "signUp": "Sign Up",
+  "copyright": "© {{year}} Propify",
+  "activity": "Activity"
+}

@@ -1,0 +1,23 @@
+{
+      "na": "N/A",
+  "previousBookingsTitle": "My Previous Bookings",
+  "mustBeLoggedInTitle": "You should be logged in!",
+  "mustBeLoggedInDesc": "Please log in to view your previous bookings.",
+  "login": "Login",
+  "register": "Register",
+  "noBookingsTitle": "No Bookings Found",
+  "noBookingsDesc": "You have not made any bookings yet. Start exploring properties and book your favorite place today!",
+  "property": "Property",
+  "scheduled": "Scheduled",
+  "makePayment": "Make Payment",
+  "viewMessages": "View Messages",
+  "status": {
+    "pending": "Pending",
+    "approved": "Approved",
+    "completed": "Completed",
+    "rejected": "Rejected",
+    "cancelled": "Cancelled",
+    "canceled": "Canceled",
+    "waiting": "Pending"
+}
+}

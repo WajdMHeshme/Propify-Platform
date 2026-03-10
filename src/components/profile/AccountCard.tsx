@@ -1,13 +1,11 @@
 // src/components/profile/AccountCard.tsx
 import React from "react";
+import type { AccountProps } from "../../types/auth";
+import { useTranslation } from "react-i18next";
 
-type Props = {
-  user: any;
-  initials: string;
-  onLogout: () => void;
-};
+const AccountCard: React.FC<AccountProps> = ({ user, initials, onLogout }) => {
+  const { t } = useTranslation("profile"); // namespace "profile" نفترضه موجود بالـ i18n
 
-const AccountCard: React.FC<Props> = ({ user, initials, onLogout }) => {
   return (
     <section className="bg-white rounded-2xl shadow p-6 flex flex-col md:flex-row items-start gap-4">
       <div className="flex items-center gap-4">
@@ -25,11 +23,11 @@ const AccountCard: React.FC<Props> = ({ user, initials, onLogout }) => {
             {("id" in user || "created_at" in user) && (
               <div className="mt-2 text-xs text-gray-400">
                 {"id" in user && (
-                  <span className="mr-3">ID: {(user as any).id}</span>
+                  <span className="mr-3">{t("id")}: {(user as any).id}</span>
                 )}
                 {"created_at" in user && (
                   <span>
-                    Joined:{" "}
+                    {t("joined")}:{" "}
                     {new Date((user as any).created_at).toLocaleDateString()}
                   </span>
                 )}
@@ -40,9 +38,9 @@ const AccountCard: React.FC<Props> = ({ user, initials, onLogout }) => {
           <div className="shrink-0 flex flex-col items-end gap-2">
             <button
               onClick={onLogout}
-              className="px-4 py-2  bg-primary text-white text-sm"
+              className="px-4 py-2 bg-primary text-white text-sm"
             >
-              Logout
+              {t("logout")}
             </button>
           </div>
         </div>

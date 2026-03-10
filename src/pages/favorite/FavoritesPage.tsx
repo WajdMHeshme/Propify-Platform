@@ -1,18 +1,21 @@
 // src/pages/profile/FavoritesPage.tsx
 import { useFavorites } from "../../hooks/useFavorites";
-import { FiInbox, FiMessageCircle } from "react-icons/fi";
+import { FiInbox } from "react-icons/fi";
 import { MdOutlinePrivacyTip } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import BookingsSkeleton from "../../components/ui/loaders/BookingsSkeleton";
-import PropertyCard from "../../components/cards/PropertyCard";
+import PropertyCardSkeleton from "../../components/ui/loaders/PropertyCardSkeleton";
 import { useState } from "react";
+import PropertyCard from "../../components/cards/PropertyCard";
 
 export default function FavoritesPage() {
   const { favorites, loading, error, removeFavorite } = useFavorites();
   const navigate = useNavigate();
 
   // message: { type: 'success' | 'error', text: string }
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   const showMessage = (type: "success" | "error", text: string) => {
     setMessage({ type, text });
@@ -31,14 +34,22 @@ export default function FavoritesPage() {
         {message && (
           <div
             className={`mb-4 p-3 rounded-md text-sm font-medium ${
-              message.type === "success" ? "bg-green-50 text-green-700 border border-green-100" : "bg-red-50 text-red-700 border border-red-100"
+              message.type === "success"
+                ? "bg-green-50 text-green-700 border border-green-100"
+                : "bg-red-50 text-red-700 border border-red-100"
             }`}
           >
             {message.text}
           </div>
         )}
 
-        {loading && <BookingsSkeleton />}
+        {loading && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <PropertyCardSkeleton key={i} />
+            ))}
+          </div>
+        )}
 
         {error && error.toString().toLowerCase().includes("unauthenticated") ? (
           <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl shadow-sm border-dashed border-3 border-gray-300">
@@ -76,7 +87,8 @@ export default function FavoritesPage() {
               No Favorites Found
             </h2>
             <p className="text-gray-500 text-center max-w-md">
-              You did not add any properties to favorites yet. Browse properties and add the ones you like!
+              You did not add any properties to favorites yet. Browse properties
+              and add the ones you like!
             </p>
           </div>
         )}
@@ -92,15 +104,21 @@ export default function FavoritesPage() {
                     try {
                       // call removeFavorite with the fav.id (favorite entry id)
                       const resp = await removeFavorite(fav.property.id);
-                      console.log("removeFavorite response:", resp)
+                      console.log("removeFavorite response:", resp);
                       // show server message if available
                       const text =
-                        (resp && (resp.message || resp.data || JSON.stringify(resp))) ||
+                        (resp &&
+                          (resp.message ||
+                            resp.data ||
+                            JSON.stringify(resp))) ||
                         "Removed from favorites";
                       showMessage("success", String(text));
                     } catch (err: any) {
                       console.error("Failed to remove favorite:", err);
-                      showMessage("error", err?.message || "Failed to remove favorite");
+                      showMessage(
+                        "error",
+                        err?.message || "Failed to remove favorite",
+                      );
                     }
                   }}
                 />

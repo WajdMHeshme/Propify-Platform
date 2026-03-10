@@ -1,0 +1,11 @@
+{
+  "phone": "+1 234 567 890",
+  "phoneHref": "+1234567890",
+  "email": "support@propify.com",
+  "emailHref": "support@propify.com",
+  "call": "Call",
+  "emailLabel": "Email",
+  "help": "Help",
+  "support": "Support",
+  "exploreDeals": "Explore Deals"
+}

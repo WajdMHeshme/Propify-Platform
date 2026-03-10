@@ -47,3 +47,17 @@ export interface ContactHeroProps {
   title?: string;
   desc?: string;
 }
+
+export type PropertiesFilters = {
+  page?: number;
+  limit?: number;
+  city?: string;
+  min_price?: number | string | undefined;
+  max_price?: number | string | undefined;
+  status?: string | undefined;
+};
+
+export type Props = PropertyCardProps & {
+  isFavorite?: boolean;
+  onToggleFavorite?: (propertyId: number | string) => void;
+};

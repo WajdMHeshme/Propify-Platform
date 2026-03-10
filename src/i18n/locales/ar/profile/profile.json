@@ -1,0 +1,28 @@
+{
+    "id": "المعرف",
+    "joined": "انضم",
+    "logout": "تسجيل الخروج",
+    "favorites": "المفضلة",
+    "viewAll": "عرض الكل",
+    "noFavorites": "ليس لديك أي مفضلات بعد.",
+    "property": "عقار",
+    "recentBookings": "الحجوزات الأخيرة",
+    "noRecentBookings": "لا توجد حجوزات حديثة.",
+    "status": {
+        "pending": "قيد الانتظار",
+        "rejected": "مرفوض",
+        "completed": "مكتمل"
+    },
+    "myProfile": "ملفي الشخصي",
+    "updateInfoAndManage": "قم بتحديث معلوماتك وإدارة حجوزاتك والمفضلات الخاصة بك.",
+    "errorFetchingAccount": "حدث خطأ أثناء جلب بيانات الحساب.",
+    "unknownError": "خطأ غير معروف",
+    "notLoggedIn": "أنت غير مسجل الدخول.",
+    "login": "تسجيل الدخول",
+    "createAccount": "إنشاء حساب",
+    "accountNote": "يرجى التأكد من صحة معلوماتك هنا — سيتم استخدامها لإصدار التواقيع وإرسال إشعارات الحجوزات.",
+    "readyToBrowse": "جاهز لتصفح المزيد من العقارات؟",
+    "exploreListings": "استكشف القوائم المتاحة واعثر على مكان إقامتك القادم.",
+    "browseProperties": "تصفح العقارات",
+    "contactSupport": "تواصل مع الدعم"
+}

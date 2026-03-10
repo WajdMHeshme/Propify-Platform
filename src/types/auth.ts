@@ -21,3 +21,15 @@ export interface AuthResponse {
   token: string;
   user: User;
 }
+
+export type AccountProps = {
+  user: any;
+  initials: string;
+  onLogout: () => void;
+};
+
+export interface CurrentUser {
+  id: number;
+  name: string;
+  email: string;
+}

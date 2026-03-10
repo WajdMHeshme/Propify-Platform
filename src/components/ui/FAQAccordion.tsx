@@ -1,5 +1,14 @@
 import { useState } from "react";
-import type { FaqAccordionProps } from "../../types/ui";
+
+type FAQItem = {
+  id: number;
+  question: string;
+  answer: string;
+};
+
+type FaqAccordionProps = {
+  items: FAQItem[];
+};
 
 const FaqAccordion: React.FC<FaqAccordionProps> = ({ items }) => {
   const [openId, setOpenId] = useState<number | null>(null);
@@ -8,11 +17,12 @@ const FaqAccordion: React.FC<FaqAccordionProps> = ({ items }) => {
 
   return (
     <div className="space-y-4">
-      {items?.map((item) => {
-        const isOpen = openId === item.id;
+      {items.map((items) => {
+        const isOpen = openId === items.id;
+
         return (
           <div
-            key={item.id}
+            key={items.id}
             className={`rounded-xl shadow-md transition-shadow duration-300 ${
               isOpen ? "shadow-lg" : "shadow-sm"
             }`}
@@ -20,15 +30,18 @@ const FaqAccordion: React.FC<FaqAccordionProps> = ({ items }) => {
             <button
               type="button"
               aria-expanded={isOpen}
-              onClick={() => toggle(item.id)}
-              className={`
-                w-full flex items-center justify-between px-6 py-4 text-left rounded-xl
+              onClick={() => toggle(items.id)}
+              className={`w-full flex items-center justify-between px-6 py-4 text-left rounded-xl
                 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary
-                ${isOpen ? "bg-primary text-white" : "bg-white text-gray-800 hover:bg-primary/10"}
+                ${
+                  isOpen
+                    ? "bg-primary text-white"
+                    : "bg-white text-gray-800 hover:bg-primary/10"
+                }
                 transition-colors duration-300
               `}
             >
-              <span className="font-medium">{item.question}</span>
+              <span className="font-medium">{items?.question}</span>
 
               <svg
                 className={`w-5 h-5 transform transition-transform duration-300 ${
@@ -45,14 +58,12 @@ const FaqAccordion: React.FC<FaqAccordionProps> = ({ items }) => {
             </button>
 
             <div
-              className={`
-                px-6 overflow-hidden transition-all duration-300
-                ${isOpen ? "py-4 max-h-80" : "py-0 max-h-0"}
-                bg-primary/5 rounded-b-xl
-              `}
+              className={`px-6 overflow-hidden transition-all duration-300 ${
+                isOpen ? "py-4 max-h-80" : "py-0 max-h-0"
+              } bg-primary/5 rounded-b-xl`}
               aria-hidden={!isOpen}
             >
-              <p className="text-gray-700">{item.answer}</p>
+              <p className="text-gray-700">{items.answer}</p>
             </div>
           </div>
         );

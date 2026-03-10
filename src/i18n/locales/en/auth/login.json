@@ -1,0 +1,14 @@
+{
+  "pageTitle": "Login",
+  "welcomeBack": "Welcome back",
+  "signInText": "Sign in to your Propify account",
+  "modalSuccessTitle": "Login Successful",
+  "modalSuccessDesc": "Welcome back! You have successfully signed in to your Propify account.",
+  "modalErrorTitle": "Login Failed",
+  "modalErrorDesc": "Login failed. Please check your credentials and try again.",
+  "features": [
+    "Manage properties in one place",
+    "Track tenants & payments easily",
+    "Secure & cloud-based platform"
+  ]
+}

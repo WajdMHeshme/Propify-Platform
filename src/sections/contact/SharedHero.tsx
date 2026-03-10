@@ -1,12 +1,8 @@
 // components/sections/SharedHero.tsx
 import FloatingIcons from "../../components/ui/FloatingIcons";
 import HeroFilterSection from "../../components/layout/HeroFilterSection";
-import type { ContactHeroProps } from "../../types/properties";
+import type { SharedHeroProps } from "../../types/ui";
 
-type SharedHeroProps = ContactHeroProps & {
-  showFilter?: boolean; // افتراضي false -> لن يظهر الفلتر
-  onFilterChange?: (filters: { city: string; price: string; type: string }) => void;
-};
 
 export default function SharedHero({
   smallTitle,
@@ -18,7 +14,7 @@ export default function SharedHero({
   return (
     <section className="mb-16">
       {/* Hero block */}
-      <div className="bg-linear-to-r from-primary to-primary-dark text-white py-12 md:py-20 mb-0 relative overflow-visible">
+      <div className="bg-linear-to-r from-primary to-primary-dark text-white py-12 md:py-20 mb-0 relative overflow-hidden">
         <FloatingIcons />
 
         {/* Decorative shapes */}

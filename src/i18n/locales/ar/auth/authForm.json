@@ -1,0 +1,19 @@
+{
+  "emailLabel": "البريد الإلكتروني",
+  "passwordLabel": "كلمة المرور",
+  "fullNameLabel": "الاسم الكامل",
+  "confirmPasswordLabel": "تأكيد كلمة المرور",
+  "emailPlaceholder": "name@example.com",
+  "passwordPlaceholder": "••••••••",
+  "fullNamePlaceholder": "أحمد محمد",
+  "confirmPasswordPlaceholder": "••••••••",
+  "submitLogin": "تسجيل الدخول",
+  "submitRegister": "إنشاء حساب",
+  "loading": "جاري التحميل...",
+  "googleSignIn": "تسجيل الدخول عبر Google",
+  "haveAccount": "لديك حساب سابق؟",
+  "noAccount": "ليس لديك حساب؟",
+  "signInLink": "تسجيل الدخول",
+  "signUpLink": "إنشاء حساب",
+    "backToHome": "العودة للرئيسية"
+}

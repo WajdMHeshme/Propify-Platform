@@ -1,7 +1,5 @@
-interface HamburgerProps {
-  open: boolean;
-  onClick: () => void;
-}
+import type { HamburgerProps } from "../../types/ui";
+
 
 export default function Hamburger({ open, onClick }: HamburgerProps) {
 

@@ -2,22 +2,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { getImageUrl } from "../../utils/getImageUrl";
+import type { FavProps } from "../../types/ui";
+import { useTranslation } from "react-i18next";
 
-type Props = {
-  favorites: any[];
-  loading?: boolean;
-  onRefresh?: () => void;
-};
-
-const FavoritesCard: React.FC<Props> = ({ favorites = [], loading = false, onRefresh }) => {
+const FavoritesCard: React.FC<FavProps> = ({ favorites = [], loading = false }) => {
+  const { t } = useTranslation("profile"); // namespace "profile"
   const items = Array.isArray(favorites) ? favorites.slice(0, 6) : [];
 
   return (
     <div className="bg-white shadow rounded-2xl p-5">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-lg font-semibold text-primary">Favorites</h3>
+        <h3 className="text-lg font-semibold text-primary">{t("favorites")}</h3>
         <div className="flex items-center gap-3">
-          <Link to="/favorites" className="text-sm text-primary hover:underline">View All</Link>
+          <Link to="/favorites" className="text-sm text-primary hover:underline">
+            {t("viewAll")}
+          </Link>
         </div>
       </div>
 
@@ -28,7 +27,7 @@ const FavoritesCard: React.FC<Props> = ({ favorites = [], loading = false, onRef
           ))}
         </div>
       ) : items.length === 0 ? (
-        <p className="text-sm text-gray-500">You don't have favorites yet.</p>
+        <p className="text-sm text-gray-500">{t("noFavorites")}</p>
       ) : (
         <div className="grid grid-cols-2 gap-3">
           {items.map((f: any) => {
@@ -52,7 +51,9 @@ const FavoritesCard: React.FC<Props> = ({ favorites = [], loading = false, onRef
                 </div>
 
                 <div className="p-2">
-                  <p className="text-sm font-medium text-gray-900 truncate">{prop.title ?? "Property"}</p>
+                  <p className="text-sm font-medium text-gray-900 truncate">
+                    {prop.title ?? t("property")}
+                  </p>
                   <p className="text-xs text-gray-500 truncate">{prop.address ?? ""}</p>
                 </div>
               </Link>

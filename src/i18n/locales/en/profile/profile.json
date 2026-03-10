@@ -1,0 +1,28 @@
+{
+    "id": "ID",
+    "joined": "Joined",
+    "logout": "Logout",
+    "favorites": "Favorites",
+    "viewAll": "View All",
+    "noFavorites": "You don't have favorites yet.",
+    "property": "Property",
+    "recentBookings": "Recent Bookings",
+    "noRecentBookings": "No recent bookings found.",
+    "status": {
+        "pending": "Pending",
+        "rejected": "Rejected",
+        "completed": "Completed"
+    },
+    "myProfile": "My Profile",
+    "updateInfoAndManage": "Update your info and manage your bookings & favorites.",
+    "errorFetchingAccount": "An error occurred while fetching account data.",
+    "unknownError": "Unknown error",
+    "notLoggedIn": "You are not logged in.",
+    "login": "Login",
+    "createAccount": "Create Account",
+    "accountNote": "Please ensure your information is correct here — it will be used to issue signatures and send booking notifications.",
+    "readyToBrowse": "Ready to browse more properties?",
+    "exploreListings": "Explore available listings and find your next stay.",
+    "browseProperties": "Browse Properties",
+    "contactSupport": "Contact Support"
+}

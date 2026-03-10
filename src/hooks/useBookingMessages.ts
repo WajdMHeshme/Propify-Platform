@@ -26,7 +26,6 @@ export const useBookingMessages = (bookingId: number) => {
   };
 
   useEffect(() => {
-    // أفضل فحص لرقم صالح
     if (bookingId == null || !Number.isFinite(bookingId)) {
       console.warn("[useBookingMessages] invalid bookingId, skipping fetch:", bookingId);
       setLoading(false);

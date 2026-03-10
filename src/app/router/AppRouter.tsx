@@ -1,6 +1,9 @@
 // src/app/router/AppRouter.tsx
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "../../components/layout/MainLayout";
+import ScrollToTop from "../../components/common/ScrollToTop";
+
 import PropertyDetailsPage from "../../pages/propertyDetails/PropertyDetailsPage";
 import HomePage from "../../pages/home/HomePage";
 import PropertiesPage from "../../pages/properties/PropertiesPage";
@@ -11,32 +14,38 @@ import ProfilePage from "../../pages/profile/ProfilePage";
 import BookingsPage from "../../pages/bookings/BookingsPage";
 import FavoritesPage from "../../pages/favorite/FavoritesPage";
 import BookingMessagesPage from "../../pages/messages/BookingMessagesPage";
+
 import ErrorBoundary from "../../components/ui/ErrorBoundary";
 
 const router = createBrowserRouter([
   {
-    path: "/login",
-    element: <LoginPage />,
-    errorElement: <ErrorBoundary />, // هنا
-  },
-  {
-    path: "/register",
-    element: <RegisterPage />,
-    errorElement: <ErrorBoundary />, // هنا
-  },
-  {
-    path: "/",
-    element: <MainLayout />,
-    errorElement: <ErrorBoundary />, // هنا
+    element: <ScrollToTop />,
     children: [
-      { index: true, element: <HomePage />, errorElement: <ErrorBoundary /> },
-      { path: "properties", element: <PropertiesPage />, errorElement: <ErrorBoundary /> },
-      { path: "properties/:id", element: <PropertyDetailsPage />, errorElement: <ErrorBoundary /> },
-      { path: "contact-us", element: <ContactPage />, errorElement: <ErrorBoundary /> },
-      { path: "profile", element: <ProfilePage />, errorElement: <ErrorBoundary /> },
-      { path: "bookings", element: <BookingsPage />, errorElement: <ErrorBoundary /> },
-      { path: "bookings/:id/messages", element: <BookingMessagesPage />, errorElement: <ErrorBoundary /> },
-        {path: "favorites", element: <FavoritesPage />, errorElement: <ErrorBoundary /> },
+      {
+        path: "/login",
+        element: <LoginPage />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "/register",
+        element: <RegisterPage />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "/",
+        element: <MainLayout />,
+        errorElement: <ErrorBoundary />,
+        children: [
+          { index: true, element: <HomePage /> },
+          { path: "properties", element: <PropertiesPage /> },
+          { path: "properties/:id", element: <PropertyDetailsPage /> },
+          { path: "contact-us", element: <ContactPage /> },
+          { path: "profile", element: <ProfilePage /> },
+          { path: "bookings", element: <BookingsPage /> },
+          { path: "bookings/:id/messages", element: <BookingMessagesPage /> },
+          { path: "favorites", element: <FavoritesPage /> },
+        ],
+      },
     ],
   },
 ]);

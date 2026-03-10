@@ -1,0 +1,17 @@
+{
+
+  "home": "الرئيسية",
+  "properties": "العقارات",
+  "contactUs": "تواصل معنا",
+  "language": "اللغة",
+  "toggleLanguage": "تغيير اللغة",
+  "bookings": "حجوزاتي",
+  "favorites": "المفضلة",
+  "profile": "الملف الشخصي",
+  "logout": "تسجيل الخروج",
+  "signIn": "تسجيل الدخول",
+  "signUp": "إنشاء حساب",
+  "copyright": "© {{year}} بروبايفاي",
+  "activity": "النشاط"
+
+}

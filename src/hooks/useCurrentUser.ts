@@ -1,11 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../services/api/api";
+import type { CurrentUser } from "../types/auth";
 
-export interface CurrentUser {
-  id: number;
-  name: string;
-  email: string;
-}
+
 
 export const useCurrentUser = () => {
   return useQuery<CurrentUser | null, Error>({

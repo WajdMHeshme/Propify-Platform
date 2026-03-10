@@ -1,6 +1,7 @@
+import { useTranslation } from "react-i18next";
+import type { IconKey } from "../../types/ui";
 import type { ReactNode } from "react";
 import { FaShieldAlt, FaHeadset, FaHome, FaRegClock } from "react-icons/fa";
-import type { ChooseUsCardProps, IconKey } from "../../types/ui";
 
 const iconMap: Record<IconKey, ReactNode> = {
   home: <FaHome />,
@@ -9,11 +10,29 @@ const iconMap: Record<IconKey, ReactNode> = {
   support: <FaHeadset />,
 };
 
+type ChooseUsCardProps = {
+  icon: IconKey;
+  featureKey?: string; // المفتاح للترجمة
+  title?: string; // بديل لو ما فيه ترجمة
+  description?: string; // بديل لو ما فيه ترجمة
+};
+
 export default function ChooseUsCard({
   icon,
-  title,
-  description,
+  featureKey,
+  title: propTitle,
+  description: propDesc,
 }: ChooseUsCardProps) {
+  const { t } = useTranslation("chooseUs");
+
+  const title = featureKey
+    ? t(`${featureKey}.title`)
+    : propTitle ?? "";
+
+  const description = featureKey
+    ? t(`${featureKey}.desc`)
+    : propDesc ?? "";
+
   return (
     <div
       className="

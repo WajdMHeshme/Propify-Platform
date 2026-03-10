@@ -1,0 +1,20 @@
+{
+  "faqTitle": "FAQ",
+  "faqKeyword": "Section",
+  "faqDesc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "chooseUsTitle": {
+    "title": "Why Choose",
+    "keyword": "Propify",
+    "desc": "Discover the benefits of choosing Propify for your real estate needs. We are committed to providing exceptional service and unparalleled expertise."
+  },
+  "properties": {
+    "title": "Explore Our",
+    "keyword": "Properties",
+    "desc": "Find the perfect home that matches your lifestyle and budget."
+  },
+  "features": {
+    "title": "Featured Properties",
+    "keyword": "For Students",
+    "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Explore the best options for your student lifestyle."
+  }
+}

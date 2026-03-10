@@ -1,12 +1,7 @@
 // src/components/ui/useSlider.ts
 import { useEffect, useRef, useState } from "react";
+import type { UseSliderOptions } from "../types/ui";
 
-type UseSliderOptions = {
-  slidesToShow?: number;
-  gap?: number;
-  autoplay?: boolean;
-  autoplayInterval?: number;
-};
 
 export function useSlider(itemsLength: number, options: UseSliderOptions = {}) {
 

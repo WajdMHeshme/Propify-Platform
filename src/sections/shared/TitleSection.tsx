@@ -1,13 +1,36 @@
+// src/components/ui/TitleSection.tsx
 import type { TitleSectionProps } from "../../types/ui";
+import { useTranslation } from "react-i18next";
 
 const TitleSection = ({
-  title,
-  desc,
-  keyword,
+  sectionKey,
+  title: propTitle,
+  desc: propDesc,
+  keyword: propKeyword,
   underline = false,
   underlineSize = "md",
   underlineClassName = "text-primary",
-}: TitleSectionProps) => {
+}: Omit<TitleSectionProps, "title" | "desc" | "keyword"> & {
+  sectionKey?: string;
+  title?: string;
+  desc?: string;
+  keyword?: string;
+}) => {
+  const { t } = useTranslation("titleSection");
+
+  // if sectionKey exists, try to read from translations
+  const rawTitle = sectionKey ? t(`${sectionKey}.title`) : undefined;
+  const rawKeyword = sectionKey ? t(`${sectionKey}.keyword`) : undefined;
+  const rawDesc = sectionKey ? t(`${sectionKey}.desc`) : undefined;
+
+  // detect missing translation: i18next عادة يرجع المفتاح نفسه لو غير موجود
+  const title =
+    rawTitle && rawTitle !== `${sectionKey}.title` ? rawTitle : propTitle ?? "";
+  const keyword =
+    rawKeyword && rawKeyword !== `${sectionKey}.keyword` ? rawKeyword : propKeyword ?? "";
+  const desc =
+    rawDesc && rawDesc !== `${sectionKey}.desc` ? rawDesc : propDesc ?? "";
+
   // map sizes to width classes for the svg container
   const sizeCls =
     underlineSize === "sm"
@@ -20,14 +43,13 @@ const TitleSection = ({
     <div className="text-center mx-auto mb-14">
       <h1 className="text-3xl md:text-5xl font-bold text-black">
         {title}{" "}
-        <span className="text-primary font-extrabold">{keyword}</span>
+        {keyword ? <span className="text-primary font-extrabold">{keyword}</span> : null}
       </h1>
 
-      <p className="mt-4 text-gray-500 text-base">{desc}</p>
+      {desc ? <p className="mt-4 text-gray-500 text-base">{desc}</p> : null}
 
       {underline && (
         <div className="mt-6 flex justify-center">
-          {/* svg uses currentColor so we can control color via a text- class */}
           <svg
             className={`${sizeCls} ${underlineClassName}`}
             viewBox="0 0 200 20"
@@ -35,7 +57,6 @@ const TitleSection = ({
             aria-hidden
             role="img"
           >
-            {/* darker main stroke */}
             <path
               d="M4 10 C30 2 70 18 196 10"
               stroke="currentColor"
@@ -45,7 +66,6 @@ const TitleSection = ({
               fill="none"
               opacity="0.95"
             />
-            {/* lighter secondary stroke for the double-line effect */}
             <path
               d="M4 12 C30 4 70 20 196 12"
               stroke="currentColor"

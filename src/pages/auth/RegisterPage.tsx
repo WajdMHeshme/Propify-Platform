@@ -5,8 +5,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import AuthForm from "../../components/auth/AuthForm";
 import type { RegisterRequest } from "../../types/auth";
 import Modal from "../../components/modal/Modal";
+import { useTranslation } from "react-i18next";
 
 const RegisterPage: React.FC = () => {
+  const { t } = useTranslation("register");
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutate, isPending, error } = useRegister();
@@ -21,26 +23,21 @@ const RegisterPage: React.FC = () => {
   const handleRegister = (data: RegisterRequest) => {
     mutate(data, {
       onSuccess: (res) => {
-        // ✅ 1. خزّن التوكن
         localStorage.setItem("token", res.token);
-
-        // ✅ 2. حدث currentUser فورًا
         queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-
-        // ✅ 3. افتح المودال ثم نعمل redirect بعد الإغلاق
         setModal({
           isOpen: true,
           type: "success",
-          title: "Account Created",
-          desc: "Your account has been successfully created. Redirecting to the dashboard...",
+          title: t("modalSuccessTitle"),
+          desc: t("modalSuccessDesc"),
         });
       },
       onError: (err: any) => {
         setModal({
           isOpen: true,
           type: "error",
-          title: "Registration Failed",
-          desc: err?.message || "Something went wrong. Please try again later.",
+          title: t("modalErrorTitle"),
+          desc: err?.message || t("modalErrorDesc"),
         });
       },
     });
@@ -56,7 +53,7 @@ const RegisterPage: React.FC = () => {
 
         <div className="relative z-10">
           <img
-            src="/assets/icons/image.png"
+            src="/assets/icons/propify.png"
             alt="Propify Logo"
             className="w-full max-w-sm mx-auto drop-shadow-2xl"
           />
@@ -66,25 +63,22 @@ const RegisterPage: React.FC = () => {
           </h1>
 
           <div className="mt-10 grid gap-4 max-w-md mx-auto text-sm">
-            <div className="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-3 backdrop-blur">
-              <span className="h-2 w-2 rounded-full bg-white" />
-              Manage properties in one place
-            </div>
-
-            <div className="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-3 backdrop-blur">
-              <span className="h-2 w-2 rounded-full bg-white" />
-              Track tenants & payments easily
-            </div>
-
-            <div className="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-3 backdrop-blur">
-              <span className="h-2 w-2 rounded-full bg-white" />
-              Secure & cloud-based platform
-            </div>
+            {[t("feature1"), t("feature2"), t("feature3")].map(
+              (feature, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-3 backdrop-blur"
+                >
+                  <span className="h-2 w-2 rounded-full bg-white" />
+                  {feature}
+                </div>
+              ),
+            )}
           </div>
         </div>
 
         <p className="relative z-10 text-center text-sm text-white/50">
-          © {new Date().getFullYear()} Propify. All rights reserved.
+          {t("footer", { year: new Date().getFullYear() })}
         </p>
       </div>
 
@@ -94,28 +88,32 @@ const RegisterPage: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
             <div className="mb-8 text-center">
               <h2 className="text-3xl font-extrabold text-gray-900">
-                Create Account
+                {t("pageTitle")}
               </h2>
-              <p className="mt-2 text-sm text-gray-500">
-                Sign up to your Propify account
-              </p>
+              <p className="mt-2 text-sm text-gray-500">{t("pageSubtitle")}</p>
             </div>
 
             <AuthForm
               type="register"
               onSubmit={handleRegister}
               isLoading={isPending}
-              error={error instanceof Error ? error.message : String(error)}
+              error={
+                error
+                  ? error instanceof Error
+                    ? error.message
+                    : String(error)
+                  : undefined
+              }
             />
           </div>
 
           <p className="mt-6 text-center text-xs text-gray-400">
-            © {new Date().getFullYear()} Propify
+            {t("footer", { year: new Date().getFullYear() })}
           </p>
         </div>
       </div>
 
-      {/* BookingModal - same structure, pass title + desc */}
+      {/* Modal */}
       <Modal
         isOpen={modal.isOpen}
         type={modal.type}
@@ -123,9 +121,7 @@ const RegisterPage: React.FC = () => {
         desc={modal.desc}
         onClose={() =>
           setModal((prev) => {
-            if (prev.type === "success") {
-              navigate("/");
-            }
+            if (prev.type === "success") navigate("/");
             return { ...prev, isOpen: false };
           })
         }

@@ -1,10 +1,9 @@
-
+// src/components/layout/Topbar.tsx
 import { FaEnvelope, FaPhoneAlt } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const Topbar: React.FC = () => {
-
-
-
+  const { t } = useTranslation("topbar");
 
   return (
     <div className="w-full relative overflow-hidden">
@@ -35,21 +34,21 @@ const Topbar: React.FC = () => {
         {/* Left group */}
         <div className="flex items-center gap-4 md:gap-8 m-auto sm:m-0">
           <a
-            href="tel:+1234567890"
+            href={`tel:${t("phoneHref")}`}
             className=" flex items-center gap-2 px-2 py-1 rounded-md hover:bg-white/10 transition transform-gpu duration-150"
-            aria-label="Call"
+            aria-label={t("call")}
           >
             <FaPhoneAlt className="w-3.5 h-3.5" />
-            <span className="whitespace-nowrap text-[13px]">+1 234 567 890</span>
+            <span className="whitespace-nowrap text-[13px]">{t("phone")}</span>
           </a>
 
           <a
-            href="mailto:support@propify.com"
+            href={`mailto:${t("emailHref")}`}
             className=" flex items-center gap-2 px-2 py-1 rounded-md hover:bg-white/10 transition transform-gpu duration-150"
-            aria-label="Email"
+            aria-label={t("emailLabel")}
           >
             <FaEnvelope className="w-3.5 h-3.5" />
-            <span className="whitespace-nowrap text-[13px]">support@propify.com</span>
+            <span className="whitespace-nowrap text-[13px]">{t("email")}</span>
           </a>
         </div>
 
@@ -60,13 +59,13 @@ const Topbar: React.FC = () => {
               href="#"
               className="text-white/90 hover:text-white underline-offset-4 hover:underline transition text-[13px]"
             >
-              Help
+              {t("help")}
             </a>
             <a
               href="#"
               className="text-white/90 hover:text-white underline-offset-4 hover:underline transition text-[13px]"
             >
-              Support
+              {t("support")}
             </a>
           </nav>
 
@@ -75,10 +74,8 @@ const Topbar: React.FC = () => {
             href="#"
             className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-full text-[13px] font-semibold transition transform-gpu duration-150"
           >
-            Explore Deals
+            {t("exploreDeals")}
           </a>
-
-
         </div>
       </div>
     </div>

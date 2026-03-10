@@ -1,17 +1,17 @@
 // src/components/cards/PropertyCard.tsx
-import type { PropertyCardProps } from "../../types/properties";
 import { FaBed, FaRulerCombined, FaDollarSign, FaHeart as FaHeartSolid } from "react-icons/fa";
 import { FiHeart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import type { Props } from "../../types/properties";
 
-type Props = PropertyCardProps & {
-  isFavorite?: boolean;
-  onToggleFavorite?: (propertyId: number | string) => void;
-};
+const STORAGE_BASE = "http://127.0.0.1:8000/storage/";
+const FALLBACK = "/placeholder.png";
 
 const PropertyCard = ({ property, isFavorite, onToggleFavorite }: Props) => {
   const [fav, setFav] = useState<boolean>(!!isFavorite);
+  const { t } = useTranslation("properties"); // << مهم: namespace الصحيح
 
   useEffect(() => {
     if (typeof isFavorite !== "undefined") {
@@ -22,14 +22,13 @@ const PropertyCard = ({ property, isFavorite, onToggleFavorite }: Props) => {
   const handleToggle = (e: React.MouseEvent | React.KeyboardEvent) => {
     // stop link navigation
     e.stopPropagation();
-    // MouseEvent has preventDefault, KeyboardEvent too — cast to any to be safe
     (e as any).preventDefault?.();
 
     const newVal = !fav;
     setFav(newVal);
 
     if (onToggleFavorite) {
-      onToggleFavorite(property?.id );
+      onToggleFavorite(property?.id);
     }
   };
 
@@ -39,6 +38,11 @@ const PropertyCard = ({ property, isFavorite, onToggleFavorite }: Props) => {
     }
   };
 
+  // optional: format price nicely (تعديل اختياري)
+  const priceDisplay = property.price
+    ? new Intl.NumberFormat(undefined, { style: "currency", currency: "GBP", maximumFractionDigits: 0 }).format(property.price)
+    : "—";
+
   return (
     <Link
       to={`/properties/${property.id}`}
@@ -47,22 +51,21 @@ const PropertyCard = ({ property, isFavorite, onToggleFavorite }: Props) => {
       {/* Image */}
       <div className="relative h-56 overflow-hidden rounded-t-2xl">
         <img
-          src={`http://127.0.0.1:8000/storage/${property.main_image}`}
+          src={property.main_image ? `${STORAGE_BASE}${property.main_image}` : FALLBACK}
           alt={property.title}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
 
-        {/* Favorite button (top-right on image) */}
+        {/* Favorite button */}
         <button
           type="button"
           onClick={handleToggle}
           onKeyDown={handleKeyDown}
           aria-pressed={fav}
-          aria-label={fav ? "Remove from favorites" : "Add to favorites"}
-          title={fav ? "Remove from favorites" : "Add to favorites"}
+          aria-label={fav ? t("removeFavorite") : t("addFavorite")}
+          title={fav ? t("removeFavorite") : t("addFavorite")}
           className={`absolute top-3 right-3 z-10 p-2 rounded-full shadow-md transition 
             ${fav ? "bg-primary text-white hover:opacity-90" : "bg-white text-primary hover:bg-primary/10"}`}
-          // prevent the button itself from being focused as a link when tabbing the Link
         >
           {fav ? <FaHeartSolid size={16} /> : <FiHeart size={16} />}
         </button>
@@ -74,26 +77,26 @@ const PropertyCard = ({ property, isFavorite, onToggleFavorite }: Props) => {
           <h3 className="text-lg font-semibold text-gray-800 line-clamp-1">
             {property.title}
           </h3>
-          <p className="text-sm text-gray-500">{property.city}</p>
+          <p className="text-sm text-gray-500">{property.city ?? "—"}</p>
         </div>
 
         <div className="flex items-center gap-4 text-gray-600 text-sm">
           <div className="flex items-center gap-1">
             <FaBed className="text-primary" />
-            <span>{property.rooms} Rooms</span>
+            <span>{property.rooms ?? "—"} {t("rooms")}</span>
           </div>
           <div className="flex items-center gap-1">
             <FaRulerCombined className="text-primary" />
-            <span>{property.area} m²</span>
+            <span>{property.area ?? "—"} m²</span>
           </div>
           <div className="flex items-center gap-1">
             <FaDollarSign className="text-primary" />
-            <span>{property.price}</span>
+            <span>{priceDisplay}</span>
           </div>
         </div>
 
         <div className="mt-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-lg py-2 text-center transition-colors duration-300">
-          View Details →
+          {t("viewDetails")} →
         </div>
       </div>
     </Link>

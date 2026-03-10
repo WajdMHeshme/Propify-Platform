@@ -5,8 +5,10 @@ import { useLogin } from "../../hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import type { LoginRequest } from "../../types/auth";
 import Modal from "../../components/modal/Modal";
+import { useTranslation } from "react-i18next";
 
 const LoginPage: React.FC = () => {
+  const { t } = useTranslation("login");
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { mutate, isPending, error } = useLogin();
@@ -26,20 +28,27 @@ const LoginPage: React.FC = () => {
         setModal({
           isOpen: true,
           type: "success",
-          title: "Login Successful",
-          desc: "Welcome back! You have successfully signed in to your Propify account.",
+          title: t("modalSuccessTitle"),
+          desc: t("modalSuccessDesc"),
         });
       },
       onError: (err: any) => {
         setModal({
           isOpen: true,
           type: "error",
-          title: "Login Failed",
-          desc: err?.message || "Login failed. Please check your credentials and try again.",
+          title: t("modalErrorTitle"),
+          desc: err?.message || t("modalErrorDesc"),
         });
       },
     });
   };
+
+  const rawFeatures = t("features", { returnObjects: true });
+  const features: string[] = Array.isArray(rawFeatures)
+    ? rawFeatures
+    : typeof rawFeatures === "string" && rawFeatures?.length > 0
+    ? [rawFeatures]
+    : [];
 
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
@@ -51,7 +60,7 @@ const LoginPage: React.FC = () => {
 
         <div className="relative z-10">
           <img
-            src="/assets/icons/image.png"
+            src="/assets/icons/propify.png"
             alt="Propify Logo"
             className="w-full max-w-sm mx-auto drop-shadow-2xl"
           />
@@ -61,20 +70,15 @@ const LoginPage: React.FC = () => {
           </h1>
 
           <div className="mt-10 grid gap-4 max-w-md mx-auto text-sm">
-            <div className="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-3 backdrop-blur">
-              <span className="h-2 w-2 rounded-full bg-white" />
-              Manage properties in one place
-            </div>
-
-            <div className="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-3 backdrop-blur">
-              <span className="h-2 w-2 rounded-full bg-white" />
-              Track tenants & payments easily
-            </div>
-
-            <div className="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-3 backdrop-blur">
-              <span className="h-2 w-2 rounded-full bg-white" />
-              Secure & cloud-based platform
-            </div>
+            {features.map((feature: string, idx: number) => (
+              <div
+                key={idx}
+                className="flex items-center gap-3 bg-white/10 rounded-xl px-4 py-3 backdrop-blur"
+              >
+                <span className="h-2 w-2 rounded-full bg-white" />
+                {feature}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -89,11 +93,9 @@ const LoginPage: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
             <div className="mb-8 text-center">
               <h2 className="text-3xl font-extrabold text-gray-900">
-                Welcome back
+                {t("welcomeBack")}
               </h2>
-              <p className="mt-2 text-sm text-gray-500">
-                Sign in to your Propify account
-              </p>
+              <p className="mt-2 text-sm text-gray-500">{t("signInText")}</p>
             </div>
 
             <AuthForm
@@ -110,7 +112,7 @@ const LoginPage: React.FC = () => {
         </div>
       </div>
 
-      {/* BookingModal - نفس الهيكل، نمرّر title + desc */}
+      {/* Modal */}
       <Modal
         isOpen={modal.isOpen}
         type={modal.type}
@@ -118,10 +120,7 @@ const LoginPage: React.FC = () => {
         desc={modal.desc}
         onClose={() =>
           setModal((prev) => {
-            // لو النجاح => نعمل navigate بعد الإغلاق
-            if (prev.type === "success") {
-              navigate("/");
-            }
+            if (prev.type === "success") navigate("/");
             return { ...prev, isOpen: false };
           })
         }

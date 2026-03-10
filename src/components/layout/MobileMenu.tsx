@@ -4,15 +4,11 @@ import { PiBookmarksSimpleBold } from "react-icons/pi";
 import { FiHeart, FiUser, FiLogOut } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
-
-interface MobileMenuProps {
-  open: boolean;
-  onClose: () => void;
-}
+import type { MobileMenuProps } from "../../types/ui";
 
 export default function MobileMenu({ open, onClose }: MobileMenuProps) {
   const { data: user } = useCurrentUser();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation("navbar");
   const navigate = useNavigate();
 
   const toggleLanguage = () => {
@@ -52,7 +48,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
                 }`
               }
             >
-              Home
+              {t("home")}
             </NavLink>
 
             <NavLink
@@ -64,7 +60,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
                 }`
               }
             >
-              Properties
+              {t("properties")}
             </NavLink>
 
             <NavLink
@@ -76,7 +72,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
                 }`
               }
             >
-              Contact Us
+              {t("contactUs")}
             </NavLink>
           </nav>
 
@@ -87,7 +83,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
               className="flex items-center gap-2 px-4 py-3 rounded-md hover:bg-gray-100"
             >
               <span className="uppercase">{i18n.language}</span>
-              <span className="ml-auto text-sm text-gray-500">Language</span>
+              <span className="ml-auto text-sm text-gray-500">{t("language")}</span>
             </button>
 
             <Link
@@ -96,7 +92,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
               className="flex items-center gap-2 px-4 py-3 rounded-md hover:bg-gray-100"
             >
               <PiBookmarksSimpleBold size={18} color="#5659f9" />
-              <span className="text-sm font-medium">Bookings</span>
+              <span className="text-sm font-medium">{t("bookings")}</span>
             </Link>
 
             {/* Favorites link */}
@@ -104,10 +100,10 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
               to="/favorite"
               onClick={onClose}
               className="flex items-center gap-2 px-4 py-3 rounded-md hover:bg-gray-100"
-              title="Favorites"
+              title={t("favorites")}
             >
               <FiHeart size={18} className="text-primary" />
-              <span className="text-sm font-medium">Favorites</span>
+              <span className="text-sm font-medium">{t("favorites")}</span>
             </Link>
 
             {/* Profile / Auth area */}
@@ -139,7 +135,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
                     className="flex items-center gap-2 px-3 py-2 rounded hover:bg-white text-left"
                   >
                     <FiUser />
-                    <span className="text-sm">Profile</span>
+                    <span className="text-sm">{t("profile")}</span>
                   </button>
 
                   <button
@@ -150,7 +146,7 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
                     className="flex items-center gap-2 px-3 py-2 rounded hover:bg-white text-left text-red-500"
                   >
                     <FiLogOut />
-                    <span className="text-sm">Logout</span>
+                    <span className="text-sm">{t("logout")}</span>
                   </button>
                 </div>
               </div>
@@ -161,20 +157,20 @@ export default function MobileMenu({ open, onClose }: MobileMenuProps) {
                   onClick={onClose}
                   className="px-4 py-2 rounded-md hover:bg-gray-100"
                 >
-                  Sign In
+                  {t("signIn")}
                 </Link>
                 <Link
                   to="/register"
                   onClick={onClose}
                   className="btn-primary px-4 py-2 rounded-md"
                 >
-                  Sign Up
+                  {t("signUp")}
                 </Link>
               </div>
             )}
           </div>
 
-          <div className="mt-4 text-xs text-gray-400">© {new Date().getFullYear()} Propify</div>
+          <div className="mt-4 text-xs text-gray-400">{t("copyright", { year: new Date().getFullYear() })}</div>
         </div>
       </aside>
     </div>

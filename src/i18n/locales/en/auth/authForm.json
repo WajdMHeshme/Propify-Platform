@@ -1,0 +1,19 @@
+{
+  "emailLabel": "Email address",
+  "passwordLabel": "Password",
+  "fullNameLabel": "Full Name",
+  "confirmPasswordLabel": "Confirm Password",
+  "emailPlaceholder": "name@example.com",
+  "passwordPlaceholder": "••••••••",
+  "fullNamePlaceholder": "John Doe",
+  "confirmPasswordPlaceholder": "••••••••",
+  "submitLogin": "Sign in",
+  "submitRegister": "Sign up",
+  "loading": "Loading...",
+  "googleSignIn": "Sign in with Google",
+  "haveAccount": "Already have an account?",
+  "noAccount": "Don't have an account?",
+  "signInLink": "Sign in",
+  "signUpLink": "Sign up",
+    "backToHome": "Back to home"
+}

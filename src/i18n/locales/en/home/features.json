@@ -1,0 +1,18 @@
+{
+  "secureAccount": {
+    "title": "Secure account creation",
+    "desc": "StudentHub provides secure account creation of both student and landlord by strong and secured verification process."
+  },
+  "rentalPrivacy": {
+    "title": "Rental Privacy Policy",
+    "desc": "Following governmental regulation on renting as a privacy policy in website protects students and make their payments secured."
+  },
+  "directCommunication": {
+    "title": "Direct Communication",
+    "desc": "Students can communicate directly with landlords to ask questions and get clear answers before booking."
+  },
+  "fastBooking": {
+    "title": "Fast Booking Process",
+    "desc": "Book accommodations quickly and easily from anywhere around the world with a smooth process."
+  }
+}

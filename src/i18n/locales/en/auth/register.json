@@ -1,0 +1,12 @@
+{
+  "pageTitle": "Create Account",
+  "pageSubtitle": "Sign up to your Propify account",
+  "feature1": "Manage properties in one place",
+  "feature2": "Track tenants & payments easily",
+  "feature3": "Secure & cloud-based platform",
+  "modalSuccessTitle": "Account Created",
+  "modalSuccessDesc": "Your account has been successfully created. Redirecting to the dashboard...",
+  "modalErrorTitle": "Registration Failed",
+  "modalErrorDesc": "Something went wrong. Please try again later.",
+  "footer": "© {{year}} Propify. All rights reserved."
+}

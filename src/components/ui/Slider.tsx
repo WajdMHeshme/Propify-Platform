@@ -1,17 +1,9 @@
 // src/components/ui/Slider.tsx
 import SliderDots from "./SliderDots";
 import { useSlider } from "../../hooks/useSlider";
+import type { SliderProps } from "../../types/ui";
 
-type SliderProps<T> = {
-  items: T[];
-  renderItem: (item: T, index: number) => React.ReactNode;
-  slidesToShow?: number;
-  gap?: number;
-  className?: string;
-  showArrows?: boolean;
-  autoplay?: boolean;
-  autoplayInterval?: number;
-};
+
 
 export default function Slider<T>({
   items,
