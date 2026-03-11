@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import FloatingIcons from "../../components/ui/FloatingIcons";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   const { t } = useTranslation("hero");
@@ -39,29 +40,52 @@ const HeroSection = () => {
 
       {/* Hero Content */}
       <div className="relative z-10 mx-auto max-w-7xl px-6 text-white text-center mt-20">
-        <span className="mb-4 inline-block rounded-full bg-white/20 px-4 py-1 text-sm font-medium backdrop-blur">
+        <span
+          className="mb-4 inline-block rounded-full bg-white/20 px-4 py-1 text-sm font-medium backdrop-blur"
+          data-aos="fade-down"
+        >
           {t("platform")}
         </span>
 
-        <h1 className="mb-6 text-4xl font-extrabold leading-tight md:text-6xl">
-          {t("titleLine1")} <br />
-          <span className="text-white">{t("titleLine2")}</span>
+        <h1
+          className="mb-6 text-4xl font-extrabold leading-tight md:text-6xl"
+        >
+          <span data-aos="fade-up" data-aos-delay={100}>
+            {t("titleLine1")}
+          </span>{" "}
+          <br />
+          <span
+            className="text-white"
+            data-aos="fade-up"
+            data-aos-delay={300}
+          >
+            {t("titleLine2")}
+          </span>
         </h1>
 
-        <p className="mb-10 max-w-2xl text-base text-white/90 md:text-lg mx-auto">
+        <p
+          className="mb-10 max-w-2xl text-base text-white/90 md:text-lg mx-auto"
+          data-aos="fade-up"
+          data-aos-delay={500}
+        >
           {t("description")}
         </p>
 
-        <div className="flex flex-col gap-4 sm:flex-row justify-center">
-          <button className=" bg-white px-8 py-3 font-semibold text-primary transition hover:scale-105 hover:bg-white/90">
+        <div
+          className="flex flex-col gap-4 sm:flex-row justify-center"
+          data-aos="fade-up"
+          data-aos-delay={700}
+        >
+          <Link to="properties" className="bg-white px-8 py-3 font-semibold text-primary transition hover:scale-105 hover:bg-white/90">
             {t("exploreBtn")}
-          </button>
+          </Link>
 
-          <button className=" border border-white/40 px-8 py-3 font-semibold text-white transition hover:bg-white/15">
+          <Link to="/contact-us" className="border-2 border-white/40 px-8 py-3 font-semibold text-white transition hover:bg-white/15">
             {t("learnBtn")}
-          </button>
+          </Link>
         </div>
       </div>
+
       <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
         <svg
           viewBox="0 0 1440 150"
@@ -74,7 +98,6 @@ const HeroSection = () => {
           />
         </svg>
       </div>
-
     </section>
   );
 };

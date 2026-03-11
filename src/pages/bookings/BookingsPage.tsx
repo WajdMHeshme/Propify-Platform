@@ -23,7 +23,7 @@ export default function BookingsPage() {
   return (
     <div className="min-h-screen p-6 bg-gray-50">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-primary mb-6 mt-12">
+        <h1 className="text-3xl font-bold text-primary mb-6 mt-12" data-aos="fade-down">
           {t("previousBookingsTitle")}
         </h1>
 

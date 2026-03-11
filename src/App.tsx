@@ -15,7 +15,6 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // تغيير اللغة والاتجاه
   useEffect(() => {
     const lang = i18n.language;
 

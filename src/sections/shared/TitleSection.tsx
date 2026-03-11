@@ -1,4 +1,3 @@
-// src/components/ui/TitleSection.tsx
 import type { TitleSectionProps } from "../../types/ui";
 import { useTranslation } from "react-i18next";
 
@@ -18,12 +17,11 @@ const TitleSection = ({
 }) => {
   const { t } = useTranslation("titleSection");
 
-  // if sectionKey exists, try to read from translations
+  // translations
   const rawTitle = sectionKey ? t(`${sectionKey}.title`) : undefined;
   const rawKeyword = sectionKey ? t(`${sectionKey}.keyword`) : undefined;
   const rawDesc = sectionKey ? t(`${sectionKey}.desc`) : undefined;
 
-  // detect missing translation: i18next عادة يرجع المفتاح نفسه لو غير موجود
   const title =
     rawTitle && rawTitle !== `${sectionKey}.title` ? rawTitle : propTitle ?? "";
   const keyword =
@@ -31,7 +29,6 @@ const TitleSection = ({
   const desc =
     rawDesc && rawDesc !== `${sectionKey}.desc` ? rawDesc : propDesc ?? "";
 
-  // map sizes to width classes for the svg container
   const sizeCls =
     underlineSize === "sm"
       ? "w-40 md:w-56"
@@ -41,15 +38,39 @@ const TitleSection = ({
 
   return (
     <div className="text-center mx-auto mb-14">
-      <h1 className="text-3xl md:text-5xl font-bold text-black">
+      <h1
+        className="text-3xl md:text-5xl font-bold text-black"
+        data-aos="fade-up"
+        data-aos-delay={100}
+      >
         {title}{" "}
-        {keyword ? <span className="text-primary font-extrabold">{keyword}</span> : null}
+        {keyword && (
+          <span
+            className="text-primary font-extrabold"
+            data-aos="fade-up"
+            data-aos-delay={200}
+          >
+            {keyword}
+          </span>
+        )}
       </h1>
 
-      {desc ? <p className="mt-4 text-gray-500 text-base">{desc}</p> : null}
+      {desc && (
+        <p
+          className="mt-4 text-gray-500 text-base"
+          data-aos="fade-up"
+          data-aos-delay={300}
+        >
+          {desc}
+        </p>
+      )}
 
       {underline && (
-        <div className="mt-6 flex justify-center">
+        <div
+          className="mt-6 flex justify-center"
+          data-aos="fade-up"
+          data-aos-delay={400}
+        >
           <svg
             className={`${sizeCls} ${underlineClassName}`}
             viewBox="0 0 200 20"

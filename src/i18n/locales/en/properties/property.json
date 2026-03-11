@@ -1,5 +1,5 @@
 {
-    "save": "Save",
+  "save": "Save",
   "saving": "Saving...",
   "share": "Share",
   "requestVisit": "Request a Visit",
@@ -41,7 +41,16 @@
   "previous": "Previous",
   "status": {
     "available": "Available",
-    "booked": "Booked",
+    "rented": "Rented",
     "pending": "Pending"
+  },
+  "favorites": {
+    "title": "My Favorite Properties",
+    "loginRequired": "You should be logged in!",
+    "loginMessage": "Please log in to view your favorite properties.",
+    "emptyTitle": "No Favorites Found",
+    "emptyMessage": "You did not add any properties to favorites yet. Browse properties and add the ones you like!",
+    "removed": "Removed from favorites",
+    "removeError": "Failed to remove favorite"
   }
 }

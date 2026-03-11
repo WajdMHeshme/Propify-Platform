@@ -1,8 +1,16 @@
 {
   "heroFilter": {
-    "cities": ["اللاذقية", "حلب", "حمص", "دمشق"],
+    "cities": [
+      { "value": "lattakia", "label": "اللاذقية" },
+      { "value": "aleppo", "label": "حلب" },
+      { "value": "homs", "label": "حمص" },
+      { "value": "damascus", "label": "دمشق" }
+    ],
     "prices": ["< $1000", "$1000 - $3000", "$3000 - $5000", "> $5000"],
-    "statuses": ["متاحة", "مؤجرة"],
+    "statuses": [
+      { "value": "available", "label": "متاحة" },
+      { "value": "rented", "label": "مؤجرة" }
+    ],
     "placeholders": {
       "city": "اختر المدينة",
       "price": "اختر السعر",

@@ -1,5 +1,5 @@
 // src/pages/profile/ProfilePage.tsx
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
@@ -10,9 +10,11 @@ import AccountCard from "../../components/profile/AccountCard";
 import FavoritesCard from "../../components/profile/FavoritesCard";
 import RecentBookingsCard from "../../components/profile/RecentBookingsCard";
 import { useTranslation } from "react-i18next";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const ProfilePage: React.FC = () => {
-  const { t } = useTranslation("profile"); // use "profile" namespace
+  const { t } = useTranslation("profile"); 
 
   const {
     data: user,
@@ -46,6 +48,15 @@ const ProfilePage: React.FC = () => {
     queryClient.removeQueries({ queryKey: ["currentUser"] });
     navigate("/login");
   };
+
+  // initialize AOS
+  useEffect(() => {
+    AOS.init({
+      duration: 600,
+      easing: "ease-out-cubic",
+      once: true,
+    });
+  }, []);
 
   if (userLoading) {
     return (
@@ -100,7 +111,11 @@ const ProfilePage: React.FC = () => {
     <div className="min-h-screen bg-gray-50 py-16 px-4">
       <div className="max-w-3xl mx-auto space-y-6">
         {/* Page title */}
-        <header className="text-center">
+        <header
+          className="text-center"
+          data-aos="fade-down"
+          data-aos-delay={0}
+        >
           <h1 className="text-2xl md:text-3xl font-bold text-primary">
             {t("myProfile")}
           </h1>
@@ -110,25 +125,39 @@ const ProfilePage: React.FC = () => {
         </header>
 
         {/* Account card */}
-        <AccountCard user={user} initials={initials} onLogout={handleLogout} />
+        <div data-aos="fade-up" data-aos-delay={100}>
+          <AccountCard user={user} initials={initials} onLogout={handleLogout} />
+        </div>
 
         {/* Note */}
-        <div className="bg-white rounded-2xl shadow p-4">
+        <div
+          className="bg-white rounded-2xl shadow p-4"
+          data-aos="fade-up"
+          data-aos-delay={200}
+        >
           <p className="text-sm text-gray-700">{t("accountNote")}</p>
         </div>
 
         {/* Favorites */}
-        <FavoritesCard
-          favorites={favorites}
-          loading={favoritesLoading}
-          onRefresh={refetchFavorites}
-        />
+        <div data-aos="fade-up" data-aos-delay={300}>
+          <FavoritesCard
+            favorites={favorites}
+            loading={favoritesLoading}
+            onRefresh={refetchFavorites}
+          />
+        </div>
 
         {/* Recent bookings */}
-        <RecentBookingsCard bookings={bookings} loading={bookingsLoading} />
+        <div data-aos="fade-up" data-aos-delay={400}>
+          <RecentBookingsCard bookings={bookings} loading={bookingsLoading} />
+        </div>
 
         {/* Final CTA */}
-        <div className="bg-white flex-col sm:flex-row rounded-2xl shadow p-6 flex items-center justify-between">
+        <div
+          className="bg-white flex-col sm:flex-row rounded-2xl shadow p-6 flex items-center justify-between"
+          data-aos="fade-up"
+          data-aos-delay={500}
+        >
           <div className="py-4">
             <h3 className="text-lg font-semibold text-primary">
               {t("readyToBrowse")}

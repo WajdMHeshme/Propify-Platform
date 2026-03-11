@@ -1,8 +1,16 @@
 {
   "heroFilter": {
-    "cities": ["Lattakia", "Aleppo", "Homs", "Damascus"],
+    "cities": [
+      { "value": "lattakia", "label": "Lattakia" },
+      { "value": "aleppo", "label": "Aleppo" },
+      { "value": "homs", "label": "Homs" },
+      { "value": "damascus", "label": "Damascus" }
+    ],
     "prices": ["< $1000", "$1000 - $3000", "$3000 - $5000", "> $5000"],
-    "statuses": ["Available", "Rented"],
+    "statuses": [
+      { "value": "available", "label": "Available" },
+      { "value": "rented", "label": "Rented" }
+    ],
     "placeholders": {
       "city": "Select City",
       "price": "Select Price",

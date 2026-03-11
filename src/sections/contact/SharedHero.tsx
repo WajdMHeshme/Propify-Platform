@@ -1,8 +1,6 @@
-// components/sections/SharedHero.tsx
 import FloatingIcons from "../../components/ui/FloatingIcons";
 import HeroFilterSection from "../../components/layout/HeroFilterSection";
 import type { SharedHeroProps } from "../../types/ui";
-
 
 export default function SharedHero({
   smallTitle,
@@ -23,21 +21,33 @@ export default function SharedHero({
         <div className="absolute top-1/2 left-1/3 w-40 h-40 border border-white/10 rounded-full opacity-20 -translate-y-1/2" />
 
         <div className="relative z-10 text-center flex flex-col items-center gap-6 px-4">
-          <p className="uppercase text-sm opacity-80 tracking-wider">
+          <p
+            className="uppercase text-sm opacity-80 tracking-wider"
+            data-aos="fade-down"
+          >
             {smallTitle}
           </p>
 
-          <h1 className="text-3xl md:text-5xl font-bold leading-snug">{title}</h1>
+          <h1
+            className="text-3xl md:text-5xl font-bold leading-snug"
+            data-aos="fade-up"
+            data-aos-delay={150}
+          >
+            {title}
+          </h1>
 
-          <p className="text-white/90 text-base md:text-lg max-w-2xl leading-relaxed">
+          <p
+            className="text-white/90 text-base md:text-lg max-w-2xl leading-relaxed"
+            data-aos="fade-up"
+            data-aos-delay={300}
+          >
             {desc}
           </p>
         </div>
       </div>
 
-
       {showFilter && (
-        <div className="-mt-12 md:-mt-16 px-4">
+        <div className="-mt-12 md:-mt-16 px-4" data-aos="fade-up" data-aos-delay={450}>
           <HeroFilterSection onFilterChange={onFilterChange} />
         </div>
       )}

@@ -15,8 +15,6 @@ import BookingsPage from "../../pages/bookings/BookingsPage";
 import FavoritesPage from "../../pages/favorite/FavoritesPage";
 import BookingMessagesPage from "../../pages/messages/BookingMessagesPage";
 
-import ErrorBoundary from "../../components/ui/ErrorBoundary";
-
 const router = createBrowserRouter([
   {
     element: <ScrollToTop />,
@@ -24,17 +22,14 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />,
-        errorElement: <ErrorBoundary />,
       },
       {
         path: "/register",
         element: <RegisterPage />,
-        errorElement: <ErrorBoundary />,
       },
       {
         path: "/",
         element: <MainLayout />,
-        errorElement: <ErrorBoundary />,
         children: [
           { index: true, element: <HomePage /> },
           { path: "properties", element: <PropertiesPage /> },
