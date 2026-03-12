@@ -17,7 +17,7 @@ const PropertiesSliderSection = () => {
     favorites.some((f) => String(f.property?.id) === String(propId));
 
   return (
-    <section className="py-12">
+    <section className="py-12 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
 <TitleSection sectionKey="properties" underline underlineSize="lg" />
         {isLoading ? (
