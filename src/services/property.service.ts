@@ -1,7 +1,7 @@
 // src/services/property.service.ts
 import { api } from "./api/api";
 import type { PropertiesResponse } from "../types/properties";
-import type { PropertiesFilters } from "../hooks/useProperties";
+import type { PropertiesFilters } from "../types/properties";
 export interface PropertiesQuery {
   page?: number;
   limit?: number;

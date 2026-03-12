@@ -6,5 +6,5 @@ export const getImageUrl = (path?: string | null) => {
   // بعض الـ backends يرجّع المسار بدون /storage أو مع مسار نسبي
   // عدّل baseURL حسب سيرفرك
   const normalized = path.startsWith("/") ? path : `storage/${path}`;
-  return `http://localhost:8000/${normalized}`;
+  return `https://unilobed-palatially-selah.ngrok-free.dev/${normalized}`;
 };

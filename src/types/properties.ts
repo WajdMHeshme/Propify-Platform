@@ -1,23 +1,27 @@
+// src/types/properties.ts
 export interface Property {
-  id: number
-  title: string
-  type: string | null
-  city: string
-  neighborhood: string
-  address: string
-  rooms: number
-  area: string
-  price: string
-  status: string
-  is_furnished: boolean
-  description: string
-  main_image: string
-  images: string[]  
-  amenities: string[]
-  created_at: string
+  [x: string]: any;
+  id: number;
+  title: string;
+  address?: string;
+  city?: string;
+  price?: number | string;
+  price_weekly?: number | string; // <-- أضف هذه الخاصية
+  main_image?: string;
+  images?: string[];
+  rooms?: number;
+  area?: number;
+  status?: string;
+  featured?: boolean; // <-- أضف هذه الخاصية إذا كنت تستخدمها
+  description?: string;
 }
 export interface PropertiesResponse {
-  data: Property[]
+  data: Property[];
+  meta?: {
+    total?: number;
+    per_page?: number;
+    current_page?: number;
+  };
 }
 
 // Generic type for paginated API responses
@@ -48,14 +52,14 @@ export interface ContactHeroProps {
   desc?: string;
 }
 
-export type PropertiesFilters = {
-  page?: number;
-  limit?: number;
+export interface PropertiesFilters {
+  page: number;
+  limit: number;
   city?: string;
-  min_price?: number | string | undefined;
-  max_price?: number | string | undefined;
-  status?: string | undefined;
-};
+  min_price?: number;
+  max_price?: number;
+  status?: string;
+}
 
 export type Props = PropertyCardProps & {
   isFavorite?: boolean;

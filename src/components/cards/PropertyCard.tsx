@@ -38,10 +38,11 @@ const PropertyCard = ({ property, isFavorite, onToggleFavorite }: Props) => {
     }
   };
 
-  // optional: format price nicely (تعديل اختياري)
-  const priceDisplay = property.price
-    ? new Intl.NumberFormat(undefined, { style: "currency", currency: "GBP", maximumFractionDigits: 0 }).format(property.price)
-    : "—";
+
+const priceDisplay = property.price && !isNaN(Number(property.price))
+  ? new Intl.NumberFormat(undefined, { style: "currency", currency: "GBP", maximumFractionDigits: 0 })
+      .format(Number(property.price))
+  : "—";
 
   return (
     <Link

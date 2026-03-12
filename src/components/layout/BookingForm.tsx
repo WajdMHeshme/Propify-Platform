@@ -1,5 +1,5 @@
 // src/components/layout/BookingForm.tsx
-import { useState, useRef, useEffect } from "react";
+import  { useState, useRef, useEffect, type RefObject } from "react";
 import { FiPhone, FiShare2, FiCalendar } from "react-icons/fi";
 import { RiHeartAdd2Line } from "react-icons/ri";
 import Flatpickr from "flatpickr";
@@ -10,9 +10,13 @@ import { useTranslation } from "react-i18next";
 
 interface BookingFormProps {
   propertyId: number | string;
+  dateInputRef?: RefObject<HTMLInputElement | null>;
 }
 
-export default function BookingForm({ propertyId }: BookingFormProps) {
+export default function BookingForm({
+  propertyId,
+  dateInputRef: externalRef,
+}: BookingFormProps) {
   const { t } = useTranslation("properties");
   const [loading, setLoading] = useState(false);
   const [modalData, setModalData] = useState({
@@ -22,7 +26,9 @@ export default function BookingForm({ propertyId }: BookingFormProps) {
     desc: "",
   });
   const [savingFav, setSavingFav] = useState(false);
-  const dateInputRef = useRef<HTMLInputElement>(null);
+  const internalRef = useRef<HTMLInputElement>(null);
+  const dateInputRef = externalRef || internalRef;
+
   const { favorites, addFavorite } = useFavorites();
 
   useEffect(() => {
@@ -32,7 +38,11 @@ export default function BookingForm({ propertyId }: BookingFormProps) {
         dateFormat: "Y-m-d H:i",
       });
     }
-  }, []);
+  }, [dateInputRef]);
+
+  const showModal = (type: "success" | "error", title: string, desc: string) => {
+    setModalData({ isOpen: true, type, title, desc });
+  };
 
   const handleBooking = async () => {
     if (!dateInputRef.current?.value) {
@@ -59,15 +69,13 @@ export default function BookingForm({ propertyId }: BookingFormProps) {
     }
   };
 
-  const showModal = (type: "success" | "error", title: string, desc: string) => {
-    setModalData({ isOpen: true, type, title, desc });
-  };
-
   const handleSave = async () => {
     if (savingFav) return;
     setSavingFav(true);
     try {
-      const already = favorites.find((f) => String(f.property?.id) === String(propertyId));
+      const already = favorites.find(
+        (f) => String(f.property?.id) === String(propertyId)
+      );
       if (already) {
         showModal("success", t("alreadySavedTitle"), t("alreadySavedDesc"));
         return;

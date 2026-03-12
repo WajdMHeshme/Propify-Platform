@@ -86,9 +86,9 @@ const RecentBookingsCard: React.FC<RecentBookingsProps> = ({ bookings = [], load
                   <p className="text-sm font-medium truncate text-gray-900">
                     {b.property?.title ?? t("property")}
                   </p>
-                  <span className="text-xs text-gray-400 flex items-center gap-1">
-                    <span>{b.status ? t(`status.${b.status.toLowerCase()}`, b.status) : ""}</span>
-                  </span>
+<span>
+  {b.status ? t(`status.${b.status.toLowerCase()}`, { defaultValue: b.status }) as string : ""}
+</span>
                 </div>
                 <p className="text-xs text-gray-500 truncate">
                   {b.date_time

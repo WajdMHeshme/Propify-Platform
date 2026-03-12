@@ -1,3 +1,4 @@
+// src/components/layout/HeroFilterSection.tsx
 import { useState } from "react";
 import { FaCity, FaDollarSign, FaHome } from "react-icons/fa";
 import type { HeroFilterProps } from "../../types/ui";
@@ -13,13 +14,14 @@ const HeroFilterSection = ({ onFilterChange, hidden = false }: HeroFilterProps) 
 
   if (hidden) return null;
 
+  // state now matches the type required in HeroFilterProps
   const [filters, setFilters] = useState({
     city: "",
     price: "",
-    status: "",
+    type: "",
   });
 
-  const handleChange = (key: "city" | "price" | "status", value: string) => {
+  const handleChange = (key: "city" | "price" | "type", value: string) => {
     const updated = { ...filters, [key]: value };
     setFilters(updated);
     onFilterChange?.(updated);
@@ -31,8 +33,8 @@ const HeroFilterSection = ({ onFilterChange, hidden = false }: HeroFilterProps) 
   // Prices (string)
   const prices = (t("heroFilter.prices", { returnObjects: true }) as string[]) || [];
 
-  // Status
-  const statuses = (t("heroFilter.statuses", { returnObjects: true }) as Option[]) || [];
+  // Type (was previously status)
+  const types = (t("heroFilter.statuses", { returnObjects: true }) as Option[]) || [];
 
   return (
     <div className="bg-white bg-opacity-90 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-lg flex flex-col md:flex-row gap-4 max-w-5xl mx-auto">
@@ -47,7 +49,6 @@ const HeroFilterSection = ({ onFilterChange, hidden = false }: HeroFilterProps) 
           className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent transition"
         >
           <option value="">{t("heroFilter.placeholders.city")}</option>
-
           {cities.map((c) => (
             <option key={c.value} value={c.value}>
               {c.label}
@@ -66,7 +67,6 @@ const HeroFilterSection = ({ onFilterChange, hidden = false }: HeroFilterProps) 
           className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent transition"
         >
           <option value="">{t("heroFilter.placeholders.price")}</option>
-
           {prices.map((p) => (
             <option key={p} value={p}>
               {p}
@@ -75,20 +75,19 @@ const HeroFilterSection = ({ onFilterChange, hidden = false }: HeroFilterProps) 
         </select>
       </div>
 
-      {/* Status */}
+      {/* Type */}
       <div className="flex items-center gap-2 flex-1">
         <FaHome className="text-primary text-lg" />
 
         <select
-          value={filters.status}
-          onChange={(e) => handleChange("status", e.target.value)}
+          value={filters.type}
+          onChange={(e) => handleChange("type", e.target.value)}
           className="w-full p-2 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-primary focus:border-transparent transition"
         >
           <option value="">{t("heroFilter.placeholders.status")}</option>
-
-          {statuses.map((s) => (
-            <option key={s.value} value={s.value}>
-              {s.label}
+          {types.map((tItem) => (
+            <option key={tItem.value} value={tItem.value}>
+              {tItem.label}
             </option>
           ))}
         </select>

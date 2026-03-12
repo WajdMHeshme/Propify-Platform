@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import SharedHero from "../../sections/contact/SharedHero";
 import PropertiesSection from "../../sections/properties/PropertiesSection";
 import CallToAction from "../../sections/contact/call/CallToAction";
-import type { PropertiesFilters } from "../../hooks/useProperties";
+import type { PropertiesFilters } from "../../types/properties";
 
 const PropertiesPage: React.FC = () => {
   const { t } = useTranslation("sharedHeroProperties");

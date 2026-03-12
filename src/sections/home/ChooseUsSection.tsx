@@ -1,4 +1,5 @@
 import ChooseUsCard from "../../components/cards/ChooseUsCard";
+import type { IconKey } from "../../types/ui";
 import TitleSection from "../shared/TitleSection";
 
 const chooseUsFeatures = [
@@ -25,8 +26,8 @@ export default function ChooseUsSection() {
           {chooseUsFeatures.map((feature) => (
             <ChooseUsCard
               key={feature.id}
-              icon={feature.icon}
-              featureKey={feature.featureKey} // الترجمة الآن تعمل
+              icon={feature.icon as IconKey}
+              featureKey={feature.featureKey}
             />
           ))}
         </div>

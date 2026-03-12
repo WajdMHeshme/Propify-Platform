@@ -1,9 +1,10 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useProperties, type PropertiesFilters } from "../../hooks/useProperties";
+import { type PropertiesFilters } from "../../types/properties";
 import PropertyWideCard from "../../components/cards/PropertyWideCard";
 import { CardSkeleton } from "../../components/ui/loaders/CardSkeleton";
 import type { Property } from "../../types/properties";
+import { useProperties } from "../../hooks/useProperties";
 
 type Props = {
   filters: PropertiesFilters;

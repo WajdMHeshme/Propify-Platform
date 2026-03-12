@@ -23,7 +23,10 @@ export default function BookingsPage() {
   return (
     <div className="min-h-screen p-6 bg-gray-50">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-primary mb-6 mt-12" data-aos="fade-down">
+        <h1
+          className="text-3xl font-bold text-primary mb-6 mt-12"
+          data-aos="fade-down"
+        >
           {t("previousBookingsTitle")}
         </h1>
 
@@ -81,8 +84,8 @@ export default function BookingsPage() {
                 status === "approved" || status === "completed"
                   ? "bg-green-100 text-green-800"
                   : status === "pending"
-                  ? "bg-yellow-100 text-yellow-800"
-                  : "bg-red-100 text-red-800";
+                    ? "bg-yellow-100 text-yellow-800"
+                    : "bg-red-100 text-red-800";
 
               return (
                 <div
@@ -93,7 +96,9 @@ export default function BookingsPage() {
                   <div className="flex items-center gap-4 flex-1">
                     {/* Avatar / Initial */}
                     <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold text-lg">
-                      {booking.property?.title ? booking.property.title.charAt(0) : "P"}
+                      {booking.property?.title
+                        ? booking.property.title.charAt(0)
+                        : "P"}
                     </div>
 
                     {/* Booking Info */}
@@ -105,7 +110,8 @@ export default function BookingsPage() {
                         <span className="text-gray-400">|</span>
                         {booking.property?.city && (
                           <span className="flex items-center gap-1 text-gray-500">
-                            <FiMapPin className="inline-block" /> {booking.property.city}
+                            <FiMapPin className="inline-block" />{" "}
+                            {booking.property.city}
                           </span>
                         )}
                       </p>
@@ -116,7 +122,13 @@ export default function BookingsPage() {
                         className={`inline-block mt-1 px-2 py-1 text-xs font-semibold rounded-full ${statusColor}`}
                       >
                         {booking.status
-                          ? t(`status.${status}`, booking.status.charAt(0).toUpperCase() + booking.status.slice(1))
+                          ? String(
+                              t(
+                                `status.${booking.status}`,
+                                booking.status.charAt(0).toUpperCase() +
+                                  booking.status.slice(1),
+                              ),
+                            )
                           : ""}
                       </span>
                     </div>
@@ -132,7 +144,9 @@ export default function BookingsPage() {
 
                     {/* Message Icon */}
                     <button
-                      onClick={() => navigate(`/bookings/${booking.id}/messages`)}
+                      onClick={() =>
+                        navigate(`/bookings/${booking.id}/messages`)
+                      }
                       className="shrink-0 w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center hover:bg-primary/40 transition"
                       title={t("viewMessages")}
                     >

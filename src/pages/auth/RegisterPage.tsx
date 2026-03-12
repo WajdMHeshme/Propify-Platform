@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRegister } from "../../hooks/useAuth";
@@ -20,11 +21,19 @@ const RegisterPage: React.FC = () => {
     desc: "",
   });
 
-  const handleRegister = (data: RegisterRequest) => {
-    mutate(data, {
+  const handleRegister = (data: Record<string, string>) => {
+    const payload: RegisterRequest = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      password_confirmation: data.password_confirmation,
+    };
+
+    mutate(payload, {
       onSuccess: (res) => {
         localStorage.setItem("token", res.token);
         queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+
         setModal({
           isOpen: true,
           type: "success",
@@ -97,13 +106,7 @@ const RegisterPage: React.FC = () => {
               type="register"
               onSubmit={handleRegister}
               isLoading={isPending}
-              error={
-                error
-                  ? error instanceof Error
-                    ? error.message
-                    : String(error)
-                  : undefined
-              }
+              error={error ? String(error) : undefined}
             />
           </div>
 
@@ -131,3 +134,4 @@ const RegisterPage: React.FC = () => {
 };
 
 export default RegisterPage;
+

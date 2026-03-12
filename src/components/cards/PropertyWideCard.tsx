@@ -38,18 +38,14 @@ const { t } = useTranslation("properties");
   const extraCount = Math.max(0, images.length - 4);
   const smallThumbs = images.slice(1, 4);
 
-  const priceDisplay = property.price
-    ? new Intl.NumberFormat(undefined, {
-        style: "currency",
-        currency: "GBP",
-        maximumFractionDigits: 0,
-      }).format(property.price)
-    : "—";
+const priceDisplay = property.price
+  ? new Intl.NumberFormat(undefined, { style: "currency", currency: "GBP", maximumFractionDigits: 0 })
+      .format(Number(property.price))
+  : "—";
 
-  const priceWeekly = property.price_weekly
-    ? `£${property.price_weekly} pw`
-    : null;
-
+const priceWeekly = property.price_weekly
+  ? `£${Number(property.price_weekly)} pw` 
+  : null;
   return (
     <article
       dir={dir}

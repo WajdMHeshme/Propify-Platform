@@ -19,7 +19,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
   isLoading,
   error,
 }) => {
-  const { t } = useTranslation("authForm"); // استخدام namespace authForm
+  const { t } = useTranslation("authForm"); 
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

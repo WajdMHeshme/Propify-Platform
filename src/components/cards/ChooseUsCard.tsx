@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import type { IconKey } from "../../types/ui";
+import type { IconKey } from "../../types/ui"; // يجب أن يكون "home" | "shield" | "clock" | "support"
 import type { ReactNode } from "react";
 import { FaShieldAlt, FaHeadset, FaHome, FaRegClock } from "react-icons/fa";
 
@@ -11,10 +11,10 @@ const iconMap: Record<IconKey, ReactNode> = {
 };
 
 type ChooseUsCardProps = {
-  icon: IconKey;
-  featureKey?: string; // المفتاح للترجمة
-  title?: string; // بديل لو ما فيه ترجمة
-  description?: string; // بديل لو ما فيه ترجمة
+  icon: IconKey; 
+  featureKey?: string; 
+  title?: string; 
+  description?: string; 
 };
 
 export default function ChooseUsCard({
@@ -68,7 +68,7 @@ export default function ChooseUsCard({
           group-hover:scale-110
         "
       >
-        {iconMap[icon]}
+        {iconMap[icon]} {/* الآن صحيح لأن icon هو من نوع IconKey */}
       </div>
 
       {/* Content */}

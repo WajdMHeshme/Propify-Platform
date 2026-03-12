@@ -71,7 +71,7 @@ export default function PropertyDetailsPage() {
             <img
               src={gallery[activeIdx]}
               alt={prop.title}
-              className="w-full h-[450px] md:h-[500px] object-cover cursor-zoom-in rounded-xl"
+              className="w-full h-112.5 md:h-125 object-cover cursor-zoom-in rounded-xl"
               onClick={() => setLightboxOpen(true)}
             />
           </div>
@@ -109,7 +109,7 @@ export default function PropertyDetailsPage() {
                   : "bg-green-100 text-green-600"
               }`}
             >
-              {t(`status.${prop.status.toLowerCase()}`)}
+              {t(`status.${prop.status?.toLowerCase()}`)}
             </span>
 
             <h1 className="text-4xl font-bold text-gray-800">{prop.title}</h1>
@@ -142,27 +142,29 @@ export default function PropertyDetailsPage() {
               </div>
               <div className="p-4 bg-gray-50 rounded-xl flex items-center gap-3 shadow-sm hover:shadow-md transition">
                 <FaMapMarkerAlt className="text-indigo-500 w-6 h-6" />
-                <span className="text-gray-700 font-medium">{prop.address}</span>
+                <span className="text-gray-700 font-medium">
+                  {prop.address}
+                </span>
               </div>
             </div>
 
             {/* Amenities */}
             <div className="mt-6">
-              <h2 className="text-2xl font-semibold mb-4 text-gray-800">{t("amenities")}</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {prop.amenities?.map((amenity, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center gap-3 p-4 rounded-xl bg-white border border-gray-100 shadow-sm hover:shadow-lg hover:scale-105 transition-transform cursor-pointer"
-                    title={amenity}
-                  >
-                    <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-indigo-100 text-indigo-600 text-xl shrink-0">
-                      {amenityIcons[amenity] || <FaMapMarkerAlt />}
-                    </div>
-                    <span className="text-gray-800 font-medium">{amenity}</span>
+              <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+                {t("amenities")}
+              </h2>
+              {prop.amenities?.map((amenity: string, idx: number) => (
+                <div
+                  key={idx}
+                  className="flex items-center gap-3 p-4 rounded-xl bg-white border border-gray-100 shadow-sm hover:shadow-lg hover:scale-105 transition-transform cursor-pointer"
+                  title={amenity}
+                >
+                  <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-indigo-100 text-indigo-600 text-xl shrink-0">
+                    {amenityIcons[amenity] || <FaMapMarkerAlt />}
                   </div>
-                ))}
-              </div>
+                  <span className="text-gray-800 font-medium">{amenity}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -191,7 +193,9 @@ export default function PropertyDetailsPage() {
                   key={idx}
                   onClick={() => setActiveIdx(idx)}
                   className={`h-16 w-24 rounded-lg overflow-hidden border-2 ${
-                    activeIdx === idx ? "border-indigo-500" : "border-transparent"
+                    activeIdx === idx
+                      ? "border-indigo-500"
+                      : "border-transparent"
                   }`}
                   aria-label={`${t("showImage")} ${idx + 1}`}
                 >

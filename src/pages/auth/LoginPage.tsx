@@ -20,8 +20,13 @@ const LoginPage: React.FC = () => {
     desc: "",
   });
 
-  const handleLogin = (data: LoginRequest) => {
-    mutate(data, {
+  const handleLogin = (data: Record<string, string>) => {
+    const payload: LoginRequest = {
+      email: data.email,
+      password: data.password,
+    };
+
+    mutate(payload, {
       onSuccess: (res) => {
         localStorage.setItem("token", res.token);
         queryClient.invalidateQueries({ queryKey: ["currentUser"] });
@@ -43,12 +48,14 @@ const LoginPage: React.FC = () => {
     });
   };
 
-  const rawFeatures = t("features", { returnObjects: true });
+  const rawFeatures = t("features", { returnObjects: true }) as
+    | string[]
+    | string;
   const features: string[] = Array.isArray(rawFeatures)
     ? rawFeatures
     : typeof rawFeatures === "string" && rawFeatures?.length > 0
-    ? [rawFeatures]
-    : [];
+      ? [rawFeatures]
+      : [];
 
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
@@ -102,7 +109,7 @@ const LoginPage: React.FC = () => {
               type="login"
               onSubmit={handleLogin}
               isLoading={isPending}
-              error={error instanceof Error ? error.message : error?.toString()}
+              error={error ? String(error) : undefined}
             />
           </div>
 
