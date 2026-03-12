@@ -18,7 +18,7 @@ export const PropertyImages: React.FC<{
       {displayImages[0] && (
         <div className="relative col-span-2 row-span-2 overflow-hidden rounded-xl shadow-sm group">
           <img
-            src={`http://127.0.0.1:8000/storage/${displayImages[0]}`}
+            src={`https://unilobed-palatially-selah.ngrok-free.dev/storage/${displayImages[0]}`}
             alt="main-property"
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />

@@ -5,7 +5,7 @@ import flatpickr from "flatpickr";
 import { getPropertyById } from "../services/property.service";
 import type { Property } from "../types/properties";
 
-const BASE_URL = "http://127.0.0.1:8000";
+const BASE_URL = import.meta.env.VITE_API_BASE || "http://localhost:8000";
 
 export const usePropertyDetails = (id?: string) => {
   const { data, isLoading, isError } = useQuery({

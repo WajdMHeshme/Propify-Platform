@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Props } from "../../types/properties";
 
-const STORAGE_BASE = "http://127.0.0.1:8000/storage/";
+const BASE_URL = import.meta.env.VITE_API_BASE || "http://localhost:8000";
 const FALLBACK = "/placeholder.png";
 
 const PropertyCard = ({ property, isFavorite, onToggleFavorite }: Props) => {
@@ -52,7 +52,7 @@ const priceDisplay = property.price && !isNaN(Number(property.price))
       {/* Image */}
       <div className="relative h-56 overflow-hidden rounded-t-2xl">
         <img
-          src={property.main_image ? `${STORAGE_BASE}${property.main_image}` : FALLBACK}
+          src={property.main_image ? `${BASE_URL}/storage/${property.main_image}` : FALLBACK}
           alt={property.title}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
