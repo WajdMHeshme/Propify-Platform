@@ -6,12 +6,12 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Props } from "../../types/properties";
 
-const BASE_URL = import.meta.env.VITE_API_BASE || "http://localhost:8000";
+const BASE_URL = import.meta.env.VITE_API_BASE;
 const FALLBACK = "/placeholder.png";
 
 const PropertyCard = ({ property, isFavorite, onToggleFavorite }: Props) => {
   const [fav, setFav] = useState<boolean>(!!isFavorite);
-  const { t } = useTranslation("properties"); // << مهم: namespace الصحيح
+  const { t } = useTranslation("properties");
 
   useEffect(() => {
     if (typeof isFavorite !== "undefined") {
