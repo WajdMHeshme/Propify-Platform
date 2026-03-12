@@ -1,5 +1,5 @@
 // src/pages/propertyDetails/PropertyDetailsPage.tsx
-import { useEffect, useRef, type JSX } from "react";
+import { useEffect, useRef, type JSX, useMemo } from "react";
 import {
   FaBed,
   FaRulerCombined,
@@ -17,6 +17,7 @@ import Flatpickr from "flatpickr";
 import PropertyDetailsSkeleton from "../../components/ui/loaders/PropertyDetailsSkeleton";
 import BookingForm from "../../components/layout/BookingForm";
 import { useTranslation } from "react-i18next";
+import { pickRandomImages } from "../../utils/imagePicker";
 
 const amenityIcons: Record<string, JSX.Element> = {
   Furnished: <FaCouch className="text-indigo-500" />,
@@ -32,7 +33,7 @@ export default function PropertyDetailsPage() {
 
   const {
     prop,
-    gallery,
+    // gallery, // we will ignore server gallery and use local images instead
     activeIdx,
     setActiveIdx,
     lightboxOpen,
@@ -42,7 +43,21 @@ export default function PropertyDetailsPage() {
     isError,
   } = usePropertyDetails(id!);
 
-  useEffect(() => setActiveIdx(0), [prop?.main_image, setActiveIdx]);
+  // seed fallback to keep deterministic images when no numeric id
+  const fallbackSeedRef = useRef<number>(Math.floor(Math.random() * 1_000_000));
+
+  // Generate a gallery of local images (deterministic per prop.id when possible)
+  const galleryToShow = useMemo(() => {
+    const seed =
+      typeof prop?.id === "number" ? prop.id : Number(id) || fallbackSeedRef.current;
+    // pick 6 images (or fewer if your LOCAL_IMAGES has fewer)
+    return pickRandomImages(seed, 6);
+  }, [prop?.id, id]);
+
+  // reset active index when gallery changes
+  useEffect(() => {
+    setActiveIdx(0);
+  }, [setActiveIdx, galleryToShow.length]);
 
   useEffect(() => {
     if (dateInputRef.current) {
@@ -69,7 +84,7 @@ export default function PropertyDetailsPage() {
           {/* Main Image */}
           <div className="relative rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
             <img
-              src={gallery[activeIdx]}
+              src={galleryToShow[activeIdx]}
               alt={prop.title}
               className="w-full h-112.5 md:h-125 object-cover cursor-zoom-in rounded-xl"
               onClick={() => setLightboxOpen(true)}
@@ -77,9 +92,9 @@ export default function PropertyDetailsPage() {
           </div>
 
           {/* Thumbnails */}
-          {gallery.length > 1 && (
+          {galleryToShow.length > 1 && (
             <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 mt-3">
-              {gallery.map((img, idx) => (
+              {galleryToShow.map((img, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveIdx(idx)}
@@ -90,11 +105,7 @@ export default function PropertyDetailsPage() {
                   }`}
                   aria-label={`${t("showImage")} ${idx + 1}`}
                 >
-                  <img
-                    src={img}
-                    alt={`${prop.title} - ${idx + 1}`}
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={img} alt={`${prop.title} - ${idx + 1}`} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
@@ -104,9 +115,7 @@ export default function PropertyDetailsPage() {
           <div className="space-y-5 mt-4">
             <span
               className={`px-3 py-1 text-xs rounded-full font-medium ${
-                prop.status === "booked"
-                  ? "bg-red-100 text-red-600"
-                  : "bg-green-100 text-green-600"
+                prop.status === "booked" ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"
               }`}
             >
               {t(`status.${prop.status?.toLowerCase()}`)}
@@ -118,13 +127,9 @@ export default function PropertyDetailsPage() {
               <FaMapMarkerAlt /> <span className="text-sm">{prop.city}</span>
             </div>
 
-            <div className="text-3xl font-extrabold text-indigo-600 mt-2">
-              {formatPrice(prop.price)}
-            </div>
+            <div className="text-3xl font-extrabold text-indigo-600 mt-2">{formatPrice(prop.price)}</div>
 
-            <p className="mt-4 text-gray-700 text-base leading-relaxed">
-              {prop.description ?? t("noDescription")}
-            </p>
+            <p className="mt-4 text-gray-700 text-base leading-relaxed">{prop.description ?? t("noDescription")}</p>
 
             {/* Property Info Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
@@ -136,23 +141,17 @@ export default function PropertyDetailsPage() {
               </div>
               <div className="p-4 bg-gray-50 rounded-xl flex items-center gap-3 shadow-sm hover:shadow-md transition">
                 <FaRulerCombined className="text-indigo-500 w-6 h-6" />
-                <span className="text-gray-700 font-medium">
-                  {prop.area ?? "—"} m²
-                </span>
+                <span className="text-gray-700 font-medium">{prop.area ?? "—"} m²</span>
               </div>
               <div className="p-4 bg-gray-50 rounded-xl flex items-center gap-3 shadow-sm hover:shadow-md transition">
                 <FaMapMarkerAlt className="text-indigo-500 w-6 h-6" />
-                <span className="text-gray-700 font-medium">
-                  {prop.address}
-                </span>
+                <span className="text-gray-700 font-medium">{prop.address}</span>
               </div>
             </div>
 
             {/* Amenities */}
             <div className="mt-6">
-              <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-                {t("amenities")}
-              </h2>
+              <h2 className="text-2xl font-semibold mb-4 text-gray-800">{t("amenities")}</h2>
               {prop.amenities?.map((amenity: string, idx: number) => (
                 <div
                   key={idx}
@@ -180,30 +179,18 @@ export default function PropertyDetailsPage() {
       {lightboxOpen && (
         <div className="fixed inset-0 bg-black/80 flex flex-col items-center justify-center z-50 p-4">
           <div className="relative w-full max-w-5xl">
-            <img
-              src={gallery[activeIdx]}
-              className="w-full h-[70vh] object-contain rounded-lg mb-3"
-              alt={`${prop.title} fullscreen`}
-            />
+            <img src={galleryToShow[activeIdx]} className="w-full h-[70vh] object-contain rounded-lg mb-3" alt={`${prop.title} fullscreen`} />
 
             {/* Thumbnails in Lightbox */}
             <div className="flex gap-2 overflow-x-auto mt-2">
-              {gallery.map((img, idx) => (
+              {galleryToShow.map((img, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveIdx(idx)}
-                  className={`h-16 w-24 rounded-lg overflow-hidden border-2 ${
-                    activeIdx === idx
-                      ? "border-indigo-500"
-                      : "border-transparent"
-                  }`}
+                  className={`h-16 w-24 rounded-lg overflow-hidden border-2 ${activeIdx === idx ? "border-indigo-500" : "border-transparent"}`}
                   aria-label={`${t("showImage")} ${idx + 1}`}
                 >
-                  <img
-                    src={img}
-                    className="w-full h-full object-cover"
-                    alt={`thumb-${idx}`}
-                  />
+                  <img src={img} className="w-full h-full object-cover" alt={`thumb-${idx}`} />
                 </button>
               ))}
             </div>
@@ -217,16 +204,14 @@ export default function PropertyDetailsPage() {
               <FiX />
             </button>
             <button
-              onClick={() =>
-                setActiveIdx((i) => (i - 1 + gallery.length) % gallery.length)
-              }
+              onClick={() => setActiveIdx((i) => (i - 1 + galleryToShow.length) % galleryToShow.length)}
               className="absolute left-4 top-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition"
               aria-label={t("previous")}
             >
               <FiChevronLeft />
             </button>
             <button
-              onClick={() => setActiveIdx((i) => (i + 1) % gallery.length)}
+              onClick={() => setActiveIdx((i) => (i + 1) % galleryToShow.length)}
               className="absolute right-4 top-1/2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition"
               aria-label={t("next")}
             >
