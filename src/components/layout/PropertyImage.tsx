@@ -1,6 +1,5 @@
-// ----------------------
-// PropertyImages Component
-// ----------------------
+// src/components/layout/PropertyImages.tsx
+import React from "react";
 
 export const PropertyImages: React.FC<{
   main_image?: string | null;
@@ -12,13 +11,22 @@ export const PropertyImages: React.FC<{
   const extraCount = allImages.length - MAX;
   const FALLBACK_IMAGE = "/placeholder.png";
 
+  // Base URL من env
+  const BASE_URL = import.meta.env.VITE_API_URL.replace("/api", "");
+
+  const getImageUrl = (path?: string | null) => {
+    if (!path) return FALLBACK_IMAGE;
+    if (path.startsWith("http")) return path;
+    return `${BASE_URL}/storage/${path}`;
+  };
+
   return (
     <div className="grid grid-cols-3 grid-rows-2 gap-2 h-56 md:h-full">
       {/* Main Image */}
       {displayImages[0] && (
         <div className="relative col-span-2 row-span-2 overflow-hidden rounded-xl shadow-sm group">
           <img
-            src={`https://unilobed-palatially-selah.ngrok-free.dev/storage/${displayImages[0]}`}
+            src={getImageUrl(displayImages[0])}
             alt="main-property"
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
@@ -29,14 +37,9 @@ export const PropertyImages: React.FC<{
       {displayImages.slice(1).map((img, idx) => {
         const isLast = idx === 2 && extraCount > 0;
         return (
-          <div
-            key={idx}
-            className="relative overflow-hidden rounded-xl shadow-sm group"
-          >
+          <div key={idx} className="relative overflow-hidden rounded-xl shadow-sm group">
             <img
-              src={
-                img ? `http://127.0.0.1:8000/storage/${img}` : FALLBACK_IMAGE
-              }
+              src={getImageUrl(img)}
               alt={`property-${idx + 1}`}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
