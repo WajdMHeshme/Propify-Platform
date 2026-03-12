@@ -11,7 +11,6 @@ export const PropertyImages: React.FC<{
   const extraCount = allImages.length - MAX;
   const FALLBACK_IMAGE = "/placeholder.png";
 
-  // Base URL من env
   const BASE_URL = import.meta.env.VITE_API_URL.replace("/api", "");
 
   const getImageUrl = (path?: string | null) => {

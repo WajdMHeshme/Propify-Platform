@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Props } from "../../types/properties";
 
-const BASE_URL = import.meta.env.VITE_API_URL;  
+const BASE_URL = "https://unilobed-palatially-selah.ngrok-free.dev/api";  
+
 const FALLBACK = "/placeholder.png";
 
 const PropertyCard = ({ property, isFavorite, onToggleFavorite }: Props) => {
