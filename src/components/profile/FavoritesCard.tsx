@@ -6,7 +6,7 @@ import type { FavProps } from "../../types/ui";
 import { useTranslation } from "react-i18next";
 
 const FavoritesCard: React.FC<FavProps> = ({ favorites = [], loading = false }) => {
-  const { t } = useTranslation("profile"); // namespace "profile"
+  const { t } = useTranslation("profile");
   const items = Array.isArray(favorites) ? favorites.slice(0, 6) : [];
 
   return (

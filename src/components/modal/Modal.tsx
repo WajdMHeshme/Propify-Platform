@@ -31,10 +31,10 @@ export default function Modal({
   useEffect(() => {
     if (isOpen) {
       setShow(true);
-      document.body.style.overflow = "hidden"; // منع scroll بالخلفية
+      document.body.style.overflow = "hidden"; 
     } else {
       document.body.style.overflow = "";
-      const timeout = setTimeout(() => setShow(false), 300); // وقت الانيميشن قبل unmount
+      const timeout = setTimeout(() => setShow(false), 300); 
       return () => clearTimeout(timeout);
     }
     return () => {
@@ -53,10 +53,10 @@ export default function Modal({
   if (!show) return null;
 
   return (
-    <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/50 transition-opacity duration-200 ${
-        isOpen ? "opacity-100" : "opacity-0"
-      }`}
+<div
+  className={`fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 sm:p-6 transition-opacity duration-200 ${
+    isOpen ? "opacity-100" : "opacity-0"
+  }`}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
